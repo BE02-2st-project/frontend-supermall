@@ -112,7 +112,7 @@ return (
         </SnsImageWrapper>
 
             <SnsImageMoreBtnContainer>
-                <SnsImageMoreBtn onClick={{loadMoreImages}}>더보기</SnsImageMoreBtn>
+                <SnsImageMoreBtn onClick={loadMoreImages}>더보기</SnsImageMoreBtn>
             </SnsImageMoreBtnContainer>
            
     </SnsImgContainer>
