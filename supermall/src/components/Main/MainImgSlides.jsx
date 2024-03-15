@@ -1,7 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState ,useEffect} from 'react';
 import styled from 'styled-components';
 import { GrNext } from "react-icons/gr";
 import { GrPrevious } from "react-icons/gr";
+import { Link, useNavigate } from "react-router-dom"
+
+
 
 const ImgSlides = styled.div`
     position: relative;
@@ -26,10 +29,6 @@ const Image = styled.img`
     height: 674px;
     object-fit: cover;
     `;
-
-const ImageLink = styled.a`
-    text-decoration: none;
-`;    
 
 const Button = styled.button`
     position: absolute;
@@ -60,40 +59,41 @@ const TextOverlay = styled.div`
 `;
 
 const MainImgSlides = () => {
-    const [currentSlide, setCurrentSlide] = useState(0);
-    const [slideText, setSlideText] = useState('sample text')
+const [currentSlide, setCurrentSlide] = useState(0);
+const [slideText, setSlideText] = useState(['sample text','sample text1','sample text2']);
+const [slideImgs, setSlideImgs] = useState([]);
+const navigate = useNavigate()
 
-    const images = [
-        "https://media.istockphoto.com/id/1457122831/photo/portrait-of-hip-hop-group-on-staircase-outdoors.jpg?s=2048x2048&w=is&k=20&c=nQxQv1671GBNdLyojP9p018U_DKdxvDwhvVOBvDaW1Q=",
-        "https://media.istockphoto.com/id/1848126533/photo/fashionably-dressed-female-business-person-seen-on-the-street-of-new-york-talking-on-the.jpg?s=2048x2048&w=is&k=20&c=F-YauWWc_56ccR4KA8-qfW0hxrQwSw4P_EyFuZ9hfDM=",
-        "https://media.istockphoto.com/id/1496292974/photo/happy-asian-chinese-young-woman-crossing-road-carrying-skateboard-in-old-town.jpg?s=2048x2048&w=is&k=20&c=hYKQOj3vIDA41oFmV0jh6ZV-8N9HmZfXUu58gdh2zdE="
-    ];
+   useEffect(() => {
+        fetch("https://raw.githubusercontent.com/ines012/supermall-data/main/sampleImg1.json")
+            .then((response) => response.json())
+            .then((data) => setSlideImgs(data))
+    }, []);
 
-    const nextSlide = () => {
-        setCurrentSlide(currentSlide === images.length - 1 ? 0 : currentSlide + 1);
+
+ const nextSlide = () => {
+        setCurrentSlide(currentSlide === slideImgs.length - 1 ? 0 : currentSlide + 1);
+   };
+
+  const prevSlide = () => {
+      setCurrentSlide(currentSlide === 0 ? slideImgs.length - 1 : currentSlide - 1);
     };
 
-    const prevSlide = () => {
-        setCurrentSlide(currentSlide === 0 ? images.length - 1 : currentSlide - 1);
-    };
-
-    return (
-        <ImgSlides>
-            <SlideContainer style={{ transform: `translateX(-${currentSlide * 100}%)` }}>
-                {images.map((image, index) => (
-                    <Slide key={index}>
-                        <ImageLink href="">
-                        <Image src={image} alt={`Slide ${index + 1}`} />
-                        </ImageLink>
-                        <TextOverlay>{slideText}</TextOverlay>
-                        <LeftButton onClick={prevSlide}><GrPrevious /></LeftButton>
-                        <RightButton onClick={nextSlide}><GrNext /></RightButton>
-                    </Slide>
-                ))}
+   return (
+      <ImgSlides>
+         <SlideContainer style={{ transform: `translateX(-${currentSlide * 100}%)` }}>
+                {slideImgs.map((image, i) => (
+                    <Slide key={i}>
+                         <Image src={image.image} alt={`Slide ${i + 1}`}/>
+                       <TextOverlay>{slideText[i]}</TextOverlay>
+                    <LeftButton onClick={prevSlide}><GrPrevious /></LeftButton>
+                  <RightButton onClick={nextSlide}><GrNext /></RightButton>
+                  </Slide>
+              ))}
                 
-            </SlideContainer>
+           </SlideContainer>
         </ImgSlides>
-    );
+     );
 };
 
 export default MainImgSlides;

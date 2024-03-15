@@ -11,8 +11,6 @@ const MainContainer = styled.div`
 
 `
 
-
-
 const Main = () => {
     return (
     <MainContainer>
