@@ -40,7 +40,7 @@ const NumberAtOnceButton = styled.button`
 `;
 
 const NumberAtOnceContent = styled.div`
-  display: ${(props) => (props.isOpen ? "block" : "none")};
+  display: ${(props) => (props.$isOpen ? "block" : "none")};
   position: absolute;
   background-color: #ffffff;
   min-width: 143px;
@@ -143,7 +143,7 @@ const NumberAtOnce = ({ limit, setLimit }) => {
         {`${limit}개씩 보기`}
         <StyledArrowDown />
       </NumberAtOnceButton>
-      <NumberAtOnceContent isOpen={isOpen}>
+      <NumberAtOnceContent $isOpen={isOpen}>
         {/* '현재 상태'를 맨 위에 별도로 표시 (클릭 이벤트 제거) */}
         <NumberAtOnceContentElementnow onClick={() => setIsOpen(false)}>
           {`${limit}개씩 보기 `}

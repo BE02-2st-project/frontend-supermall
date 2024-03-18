@@ -42,7 +42,7 @@ const ProductFilterButton = styled.button`
 `;
 
 const ProductFilterContent = styled.div`
-  display: ${(props) => (props.isOpen ? "block" : "none")};
+  display: ${(props) => (props.$isOpen ? "block" : "none")};
   position: absolute;
   background-color: #ffffff;
   width: 1120px;
@@ -199,7 +199,7 @@ const ProductFilter = () => {
       <ProductFilterButton onClick={() => setIsOpen(!isOpen)}>
         필터 <StyledAdjust />
       </ProductFilterButton>
-      <ProductFilterContent isOpen={isOpen}>
+      <ProductFilterContent $isOpen={isOpen}>
         <ProductFilterPickedHeader>
           <ProductFilterPickedHeaderElement onClick={() => setIsOpen(false)}>
             필터
@@ -211,19 +211,19 @@ const ProductFilter = () => {
           <ProductFilterPickedSize>사이즈</ProductFilterPickedSize>
           <FilterForm>
             <SizeCheckbox id="10" />
-            <SizeLabel for="10">10</SizeLabel>
+            <SizeLabel htmlFor="10">10</SizeLabel>
 
             <SizeCheckbox id="20" />
-            <SizeLabel for="20">20</SizeLabel>
+            <SizeLabel htmlFor="20">20</SizeLabel>
 
             <SizeCheckbox id="30" />
-            <SizeLabel for="30">30</SizeLabel>
+            <SizeLabel htmlFor="30">30</SizeLabel>
 
             <SizeCheckbox id="40" />
-            <SizeLabel for="40">40</SizeLabel>
+            <SizeLabel htmlFor="40">40</SizeLabel>
 
             <SizeCheckbox id="50" />
-            <SizeLabel for="50">50</SizeLabel>
+            <SizeLabel htmlFor="50">50</SizeLabel>
           </FilterForm>
         </ProductFilterPickedSizeRow>
 
