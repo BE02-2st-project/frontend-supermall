@@ -43,6 +43,9 @@ const SearchInput = styled.input`
     padding: 1rem;
     font-size: 1.5rem;
     width: 30%;
+    &:focus {
+        outline: none;
+    }
 `;
 
 const SearchIcon = styled(FiSearch)`
