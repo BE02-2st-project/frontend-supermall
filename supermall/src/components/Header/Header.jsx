@@ -21,7 +21,7 @@ const HeaderTopBar = styled.div`
     color: white;
     text-align: center;
     line-height: 3rem;
-    z-index: 10;
+    z-index: 30;
 `;
 
 const HeaderMenuBar = styled.div`
@@ -31,7 +31,7 @@ const HeaderMenuBar = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
-    z-index: 5;
+    z-index: 15;
     background-color: ${(props) =>
         props.isVisible ? "white" : "rgba(255, 255, 255, 0.8)"};
 `;

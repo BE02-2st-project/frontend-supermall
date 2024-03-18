@@ -1,6 +1,5 @@
-import React, { useState , useEffect} from 'react';
-import styled from 'styled-components';
-
+import React, { useState, useEffect } from "react";
+import styled from "styled-components";
 
 const SnsImgContainer = styled.div`
     display: flex;
@@ -16,19 +15,19 @@ const SnsImgContainer = styled.div`
 
 const SnsHeader = styled.div`
     display: flex;
-    align-items : center;
-    justify-content: space-between
-`
+    align-items: center;
+    justify-content: space-between;
+`;
 
 const SnsHeaderBtn = styled.div`
     display: flex;
-    align-items : center;
+    align-items: center;
     justify-content: space-between;
-    
+
     button {
         border-radius: 30px;
         background-color: transparent;
-        border: 1px solid black; 
+        border: 1px solid black;
         padding: 8px 16px;
         color: black;
         cursor: pointer;
@@ -36,23 +35,23 @@ const SnsHeaderBtn = styled.div`
         margin-left: 15px;
     }
 
-    button:nth-child(3){
+    button:nth-child(3) {
         border: 1px solid #d28f8a;
     }
 
     button:hover {
         background-color: black;
-        color: white
+        color: white;
     }
 
     button:nth-child(3):hover {
         background-color: #d28f8a;
     }
-`
+`;
 const SnsImageWrapper = styled.div`
     display: grid;
     grid-template-columns: repeat(4, 250px);
-    grid-template-rows: repeat(2, 250px); 
+    grid-template-rows: repeat(2, 250px);
     grid-gap: 20px;
 `;
 
@@ -61,7 +60,6 @@ const SnsImage = styled.img`
     height: 100%;
     object-fit: cover;
 `;
-
 
 const SnsImageMoreBtnContainer = styled.div`
     display: flex;
@@ -83,40 +81,48 @@ const MainSns = () => {
     const [snsImgs, setSnsImgs] = useState([]);
 
     useEffect(() => {
-        fetch("https://raw.githubusercontent.com/ines012/supermall-data/main/sampleImg1.json")
+        fetch(
+            "https://raw.githubusercontent.com/ines012/supermall-data/main/sampleImg1.json"
+        )
             .then((response) => response.json())
-            .then((data) => setSnsImgs(data))
+            .then((data) => setSnsImgs(data));
     }, []);
 
-const loadMoreImages = () => {
-        fetch("https://raw.githubusercontent.com/ines012/supermall-data/main/sampleImg2.json")
+    const loadMoreImages = () => {
+        fetch(
+            "https://raw.githubusercontent.com/ines012/supermall-data/main/sampleImg2.json"
+        )
             .then((response) => response.json())
-            .then((data) =>setSnsImgs((prevImgs) => [...prevImgs, ...data]));
-            
-};
+            .then((data) => setSnsImgs((prevImgs) => [...prevImgs, ...data]));
+    };
 
-return (
-    <SnsImgContainer>
-        <SnsHeader>
-            <h2>SUPERMALL STYLE in SNS</h2>
-            <SnsHeaderBtn>
-                <button>ALL</button>
-                <button>SUPERMALL</button>
-                <button>KIDS🐻</button>
-            </SnsHeaderBtn>
-        </SnsHeader>
-        <SnsImageWrapper>
+    return (
+        <SnsImgContainer>
+            <SnsHeader>
+                <h2>SUPERMALL STYLE in SNS</h2>
+                <SnsHeaderBtn>
+                    <button>ALL</button>
+                    <button>SUPERMALL</button>
+                    <button>KIDS🐻</button>
+                </SnsHeaderBtn>
+            </SnsHeader>
+            <SnsImageWrapper>
                 {snsImgs.map((imageData, i) => (
-                    <SnsImage key={i} src={imageData.image} alt={`Image ${i + 1}`} />
+                    <SnsImage
+                        key={i}
+                        src={imageData.image}
+                        alt={`Image ${i + 1}`}
+                    />
                 ))}
-        </SnsImageWrapper>
+            </SnsImageWrapper>
 
             <SnsImageMoreBtnContainer>
-                <SnsImageMoreBtn onClick={loadMoreImages}>더보기</SnsImageMoreBtn>
+                <SnsImageMoreBtn onClick={loadMoreImages}>
+                    더보기
+                </SnsImageMoreBtn>
             </SnsImageMoreBtnContainer>
-           
-    </SnsImgContainer>
-);
+        </SnsImgContainer>
+    );
 };
 
 export default MainSns;

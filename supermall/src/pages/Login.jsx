@@ -4,7 +4,6 @@ import naverLogo from "../assets/naver_logo.png";
 import kakoLogo from "../assets/kakao_logo.png";
 import InputLogin from "../components/User/InputLogin";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
 import PageHeader from "../components/common/PageHeader";
 
 const LoginContainer = styled.div`
@@ -170,13 +169,6 @@ const formData = new FormData();
 
     const handleSubmitLogin = (event) => {
         event.preventDefault();
-
-        // doLogin(loginParam).then((data) => {
-        //     if (data.error) {
-        //     } else {
-        //         moveToPath("/");
-        //     }
-        // });
     };
     return (
         <LoginContainer>

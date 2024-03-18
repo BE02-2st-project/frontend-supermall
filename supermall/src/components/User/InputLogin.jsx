@@ -17,12 +17,6 @@ const ErrorStyle = styled.p`
     color: #ff3600;
 `;
 
-const InformStyle = styled.p`
-    font-size: 0.9rem;
-    font-weight: 500;
-    color: ${(props) => (props.ErrorOccured ? "#ff3600" : "#999")};
-`;
-
 export default function InputBox({
     type,
     id,
