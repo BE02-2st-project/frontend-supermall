@@ -102,9 +102,6 @@ const ScrollButtonStyle = styled(IoIosArrowUp)`
 `;
 
 function Header() {
-
-  return <div>Header</div>;
-
     const barRef = useRef();
     const [isVisible, setIsVisible] = useState(true);
     const [isHovered, setIsHovered] = useState(false);
@@ -231,7 +228,6 @@ function Header() {
             )}
         </>
     );
-
 }
 
 export default Header;
