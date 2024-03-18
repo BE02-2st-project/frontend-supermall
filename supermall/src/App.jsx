@@ -8,6 +8,7 @@ import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import MyPage from "./pages/MyPage";
 import Cart from "./pages/Cart";
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const router = createBrowserRouter([
     {
