@@ -1,17 +1,27 @@
 import React from "react";
-import Test from "../assets/test.png";
+import MainImgSlides from "../components/Main/MainImgSlides";
+import MainSns from "../components/Main/MainSns";
+import MainProducts from "../components/Main/MainProducts";
+import styled from "styled-components";
 
-function Main() {
+
+const MainContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+
+`
+
+const Main = () => {
     return (
-        <div>
-            <img src={Test} alt="" />
-            <img src={Test} alt="" />
-            <img src={Test} alt="" />
-            <img src={Test} alt="" />
-            <img src={Test} alt="" />
-            <img src={Test} alt="" />
-        </div>
+    <MainContainer>
+        <MainImgSlides/>
+        <MainSns/>
+        <MainProducts/>
+    </MainContainer>
     );
 }
 
 export default Main;
+
+
+
