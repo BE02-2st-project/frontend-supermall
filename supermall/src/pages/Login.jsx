@@ -1,12 +1,14 @@
-import React, { useState, useReducer } from "react";
+import React, { useState, useReducer, useEffect } from "react";
 import styled from "styled-components";
 import naverLogo from "../assets/naver_logo.png";
 import kakoLogo from "../assets/kakao_logo.png";
-import InputBox from "../components/User/InputBox";
+import InputLogin from "../components/User/InputLogin";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import PageHeader from "../components/common/PageHeader";
 
 const LoginContainer = styled.div`
-    margin: 3rem 2rem;
+    margin: 0 2rem;
     button {
         border-radius: 5px;
         font-weight: 500;
@@ -14,13 +16,6 @@ const LoginContainer = styled.div`
         height: 3rem;
         cursor: pointer;
     }
-`;
-
-const ContainerTitle = styled.h1`
-    text-align: center;
-    padding-top: 1rem;
-    padding-bottom: 2rem;
-    border-bottom: 3px solid black;
 `;
 
 const LoginForm = styled.form`
@@ -58,9 +53,11 @@ const LoginCheckbox = styled.div`
 
 const LoginButton = styled.div`
     button {
-        background-color: black;
-        border: 1px solid black;
+        background-color: ${(props) => (props.$isDisabled ? "#ddd" : "black")};
+        /* background-color: black; */
+        border: 1px solid ${(props) => (props.$isDisabled ? "#ddd" : "black")};
         color: white;
+        cursor: ${(props) => (props.$isDisabled ? "default" : "pointer")};
     }
     padding: 0.3rem 0;
 `;
@@ -123,54 +120,91 @@ const SignUpContainer = styled.div`
     }
 `;
 
+const initState = {
+    email: "",
+    password: "",
+};
+
 function Login() {
     const navigate = useNavigate();
+    const [loginParam, setLoginParam] = useState({ ...initState });
 
-    const [email, setEmail] = useState("");
-    const [emailError, setEmailError] = useState("");
+    /* 
+const formData = new FormData();
+  formData.append("email", email);
+  formData.append("password", password);
 
-    const validateEmail = () => {
-        if (!email.trim()) {
-            setEmailError("이메일을 입력하세요.");
-            return false;
+  fetch("API 주소", {
+    method: "POST",
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+    body: formData,
+  })
+    .then((response) => {
+      if (response.ok === true) {
+        return response.json();
+      }
+      throw new Error("에러 발생!");
+    })
+    .catch((error) => {
+      alert(error);
+    })
+    .then((data) => {
+      console.log(data);
+    });
+    */
+
+    const [isValidEmail, setIsValidEmail] = useState(false);
+    const [isValidPassword, setIsValidPassword] = useState(false);
+    const [isDisabled, setIsDisabled] = useState(false);
+
+    useEffect(() => {
+        // 하나라도 유효하지 않으면 disabled="true"
+        if (isValidEmail && isValidPassword) {
+            setIsDisabled(false);
+        } else {
+            setIsDisabled(true);
         }
-        return true;
-    };
+    }, [isValidEmail, isValidPassword]);
 
-    const handleLoginSubmit = (event) => {
+    const handleSubmitLogin = (event) => {
         event.preventDefault();
-        // 이메일과 비밀번호 유효성 검사
-        // if (validateEmail() && validatePassword()) {
-        if (validateEmail()) {
-            // 유효성 검사를 통과한 경우, 로그인 API 호출 또는 다음 단계로 이동
-            // console.log("로그인 성공:", inputLoginId, inputLoginPw);
-            console.log("로그인 성공:", email);
-            // 여기에서 로그인 API 호출 또는 다음 단계로 이동하는 로직을 추가할 수 있습니다.
-        }
-    };
 
+        // doLogin(loginParam).then((data) => {
+        //     if (data.error) {
+        //     } else {
+        //         moveToPath("/");
+        //     }
+        // });
+    };
     return (
         <LoginContainer>
-            <ContainerTitle>로그인</ContainerTitle>
+            <PageHeader title="로그인"></PageHeader>
             <LoginForm id="login-form">
                 <div>
-                    <InputBox
-                        type="email"
+                    <InputLogin
+                        type="text"
                         id="login-id"
+                        name="email"
                         placeholder="이메일"
-                        inputValue={email}
-                        setInputValue={setEmail}
-                        errorMessage={emailError}
-                        handleValidate={validateEmail}
+                        errorMessage="이메일 형식으로 입력해주세요"
+                        loginParam={loginParam}
+                        setLoginParam={setLoginParam}
+                        isValid={isValidEmail}
+                        setIsValid={setIsValidEmail}
                     />
-                    <InputBox
+
+                    <InputLogin
                         type="password"
                         id="login-password"
+                        name="password"
                         placeholder="비밀번호"
-                        inputValue={email}
-                        setInputValue={setEmail}
-                        errorMessage={emailError}
-                        handleValidate={validateEmail}
+                        errorMessage="비밀번호를 입력해주세요"
+                        loginParam={loginParam}
+                        setLoginParam={setLoginParam}
+                        isValid={isValidPassword}
+                        setIsValid={setIsValidPassword}
                     />
                 </div>
 
@@ -178,10 +212,18 @@ function Login() {
                     <input type="checkbox" id="save-id" />
                     <label htmlFor="save-id">아이디 저장</label>
                 </LoginCheckbox>
+
                 <div>
-                    <LoginButton>
-                        <button onSubmit={handleLoginSubmit}>로그인</button>
+                    <LoginButton $isDisabled={isDisabled}>
+                        {/* <button onSubmit={handleLoginSubmit}>로그인</button> */}
+                        <button
+                            onSubmit={handleSubmitLogin}
+                            disabled={isDisabled}
+                        >
+                            로그인
+                        </button>
                     </LoginButton>
+
                     <SNSLogin>
                         <button type="button">
                             <img src={naverLogo} alt="naver-logo" />
