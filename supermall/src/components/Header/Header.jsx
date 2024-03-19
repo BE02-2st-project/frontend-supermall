@@ -21,7 +21,7 @@ const HeaderTopBar = styled.div`
     color: white;
     text-align: center;
     line-height: 3rem;
-    z-index: 30;
+    z-index: 3000;
 `;
 
 const HeaderMenuBar = styled.div`
@@ -31,9 +31,9 @@ const HeaderMenuBar = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
-    z-index: 15;
+    z-index: 1500;
     background-color: ${(props) =>
-        props.isVisible ? "white" : "rgba(255, 255, 255, 0.8)"};
+        props.isVisible ? "white" : "white"}; //"rgba(255, 255, 255, 0.9)"};
 `;
 
 const MenuArray = styled.div`
@@ -107,9 +107,14 @@ function Header() {
     const [isHovered, setIsHovered] = useState(false);
     const [textOrder, setTextOrder] = useState(true);
     const [isSearchOpen, setIsSearchOpen] = useState(false);
-    // 현재 로그인 상태
-    const loginState = useSelector((state) => state.loginSlice);
 
+    const [loginState, setLoginState] = useState(false);
+    useEffect(() => {
+        const token = localStorage.getItem("accessToken");
+        setLoginState(Boolean(token));
+    }, []);
+
+    console.log(loginState);
     useEffect(() => {
         const handleIntersection = (entries) => {
             if (entries[0].isIntersecting) {
@@ -203,19 +208,15 @@ function Header() {
                             <RiShoppingBagLine />
                         </NavStyle>
 
-                        {/* 로그인 이후와 이전 다르게 해야함 */}
                         <NavStyle
-                            to={loginState.email ? "/mypage" : "/login"}
+                            to={loginState ? "/mypage" : "/login"}
                             onMouseEnter={() => setIsHovered(true)}
                             onMouseLeave={() => setIsHovered(false)}
                         >
                             <LuUser2 />
                         </NavStyle>
                         {isHovered && (
-                            <HeaderHoverMenu
-                                setIsHovered={setIsHovered}
-                                loginState={loginState}
-                            />
+                            <HeaderHoverMenu setIsHovered={setIsHovered} />
                         )}
                     </MenuArray>
                 </HeaderMenuBar>

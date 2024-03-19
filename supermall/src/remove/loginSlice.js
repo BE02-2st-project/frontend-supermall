@@ -22,25 +22,6 @@ const loginSlice = createSlice({
             return { ...initState };
         },
     },
-
-    /*
-    // createAsyncThunk
-    extraReducers: (builder) => {
-        builder
-            .addCase(loginPostAsync.fulfileed, (state, action) => {
-                console.log("fulfilled");
-                const payload = action.payload;
-
-                return payload;
-            })
-            .addCase(loginPostAsync.pending, (state, action) => {
-                console.log("pending");
-            })
-            .addCase(loginPostAsync.rejected, (state, action) => {
-                console.log("rejected");
-            });
-    },
-    */
 });
 
 export const { login, logout } = loginSlice.actions;

@@ -1,12 +1,27 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 
+/*
 const SnsImgContainer = styled.div`
     display: flex;
     flex-direction: column;
+    align-items: center;
+    gap: 1rem;
     width: 70%;
-    margin: auto;
-    padding: 20px;
+    margin: 1rem auto;
+
+    @media (max-width: 768px) {
+        width: 80%; 
+    }
+`;
+*/
+const SnsImgContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    width: 70%;
+    margin: 1rem auto;
 
     @media (max-width: 768px) {
         width: 80%; /* Adjust width for smaller screens */
@@ -15,8 +30,8 @@ const SnsImgContainer = styled.div`
 
 const SnsHeader = styled.div`
     display: flex;
-    align-items: center;
     justify-content: space-between;
+    align-items: center;
 `;
 
 const SnsHeaderBtn = styled.div`
@@ -49,6 +64,7 @@ const SnsHeaderBtn = styled.div`
     }
 `;
 const SnsImageWrapper = styled.div`
+    margin: 0 auto;
     display: grid;
     grid-template-columns: repeat(4, 250px);
     grid-template-rows: repeat(2, 250px);
@@ -61,12 +77,6 @@ const SnsImage = styled.img`
     object-fit: cover;
 `;
 
-const SnsImageMoreBtnContainer = styled.div`
-    display: flex;
-    justify-content: center;
-    margin-top: 30px;
-`;
-
 const SnsImageMoreBtn = styled.button`
     font-size: 15px;
     font-weight: bolder;
@@ -75,6 +85,7 @@ const SnsImageMoreBtn = styled.button`
     border-radius: 10px;
     padding: 13px 63px;
     cursor: pointer;
+    margin-top: 30px;
 `;
 
 const MainSns = () => {
@@ -106,21 +117,23 @@ const MainSns = () => {
                     <button>KIDS🐻</button>
                 </SnsHeaderBtn>
             </SnsHeader>
-            <SnsImageWrapper>
-                {snsImgs.map((imageData, i) => (
-                    <SnsImage
-                        key={i}
-                        src={imageData.image}
-                        alt={`Image ${i + 1}`}
-                    />
-                ))}
-            </SnsImageWrapper>
+            <div>
+                <SnsImageWrapper>
+                    {snsImgs.map((imageData, i) => (
+                        <SnsImage
+                            key={i}
+                            src={imageData.image}
+                            alt={`Image ${i + 1}`}
+                        />
+                    ))}
+                </SnsImageWrapper>
+            </div>
 
-            <SnsImageMoreBtnContainer>
+            <div>
                 <SnsImageMoreBtn onClick={loadMoreImages}>
                     더보기
                 </SnsImageMoreBtn>
-            </SnsImageMoreBtnContainer>
+            </div>
         </SnsImgContainer>
     );
 };

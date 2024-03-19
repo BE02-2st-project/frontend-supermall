@@ -61,7 +61,6 @@ export default function InputBox({
                 setIsValid(false);
                 setShowError(true);
             }
-            console.log(isValid);
         } else {
             if (!inputValue) {
                 // 빈값이면 유효하지 않음
@@ -71,7 +70,6 @@ export default function InputBox({
                 setIsValid(true);
                 setShowError(false);
             }
-            console.log(isValid);
         }
     };
 
