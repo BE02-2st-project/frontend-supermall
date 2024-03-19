@@ -107,14 +107,15 @@ function Header() {
     const [isHovered, setIsHovered] = useState(false);
     const [textOrder, setTextOrder] = useState(true);
     const [isSearchOpen, setIsSearchOpen] = useState(false);
-
     const [loginState, setLoginState] = useState(false);
+
     useEffect(() => {
         const token = localStorage.getItem("accessToken");
-        setLoginState(Boolean(token));
+        if (token) {
+            setLoginState(true);
+        }
     }, []);
 
-    console.log(loginState);
     useEffect(() => {
         const handleIntersection = (entries) => {
             if (entries[0].isIntersecting) {

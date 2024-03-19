@@ -10,7 +10,7 @@ import TOS from "../components/User/TOS";
 import { useNavigate } from "react-router-dom";
 
 const SignUpContainer = styled.div`
-    width: 700px;
+    max-width: 700px;
     margin: 3rem auto;
     display: flex;
     flex-direction: column;
@@ -190,7 +190,7 @@ function Signup() {
             .then((response) => {
                 if (response.ok) {
                     console.log("회원가입이 성공하였습니다.");
-                    // navigate('./login')
+                    navigate("/login");
                 } else {
                     // 회원가입이 실패한 경우
                     console.error("회원가입에 실패하였습니다.");

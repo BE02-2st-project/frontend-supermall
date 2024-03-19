@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 const MyPageMenuStyle = styled.div`
     width: 90%;
-    margin: 2rem auto;
+    margin: 2rem auto 1rem auto;
     padding: 1rem;
     display: flex;
     justify-content: center;

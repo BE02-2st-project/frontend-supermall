@@ -18,7 +18,7 @@ const LoginContainer = styled.div`
 `;
 
 const LoginForm = styled.form`
-    width: 500px;
+    max-width: 500px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -125,15 +125,29 @@ const SignUpContainer = styled.div`
 `;
 
 function Login() {
+    const regex = new RegExp(
+        /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i
+    );
     const navigate = useNavigate();
+
     const [loginParam, setLoginParam] = useState({
         email: "",
         password: "",
     });
+
     const [isValidEmail, setIsValidEmail] = useState(false);
     const [isValidPassword, setIsValidPassword] = useState(false);
     const [isDisabled, setIsDisabled] = useState(false);
     const [showLoginError, setShowLoginError] = useState(false);
+    const [saveId, setSaveId] = useState(false);
+
+    useEffect(() => {
+        const savedEmailId = localStorage.getItem("savedEmailId");
+        if (savedEmailId) {
+            setLoginParam({ email: savedEmailId, password: "" });
+            setIsValidEmail(regex.test(savedEmailId));
+        }
+    }, []);
 
     useEffect(() => {
         // 하나라도 유효하지 않으면 disabled="true"
@@ -166,10 +180,12 @@ function Login() {
                 // Bearer 토큰 추출 및 localStorage에 토큰 저장
                 const accessToken = data.accessToken.split(" ")[1];
                 localStorage.setItem("accessToken", accessToken);
+                localStorage.setItem("email", loginParam.email);
                 console.log("로그인 성공");
-                console.log(
-                    Boolean(localStorage.getItem("accessToken", accessToken))
-                );
+                if (saveId) {
+                    // 아이디 저장
+                    localStorage.setItem("savedEmailId", loginParam.email);
+                }
                 navigate("/");
             })
             .catch((error) => {
@@ -190,8 +206,8 @@ function Login() {
                         errorMessage="이메일 형식으로 입력해주세요"
                         loginParam={loginParam}
                         setLoginParam={setLoginParam}
-                        isValid={isValidEmail}
                         setIsValid={setIsValidEmail}
+                        inputValue={loginParam.email}
                     />
 
                     <InputLogin
@@ -202,13 +218,17 @@ function Login() {
                         errorMessage="비밀번호를 입력해주세요"
                         loginParam={loginParam}
                         setLoginParam={setLoginParam}
-                        isValid={isValidPassword}
                         setIsValid={setIsValidPassword}
+                        inputValue={loginParam.password}
                     />
                 </div>
 
                 <LoginCheckbox>
-                    <input type="checkbox" id="save-id" />
+                    <input
+                        type="checkbox"
+                        id="save-id"
+                        onChange={() => setSaveId(!saveId)}
+                    />
                     <label htmlFor="save-id">아이디 저장</label>
                 </LoginCheckbox>
 

@@ -43,19 +43,19 @@ const NavBarMenu = styled(NavStyle)`
 function HeaderHoverMenu({ setIsHovered }) {
     const navigate = useNavigate();
 
-    const [loginState, setLoginState] = useState(
-        Boolean(localStorage.getItem("accessToken"))
-    );
+    const [loginState, setLoginState] = useState(false);
 
     useEffect(() => {
         const token = localStorage.getItem("accessToken");
-        setLoginState(Boolean(token));
+        if (token) {
+            setLoginState(true);
+        }
     }, []);
 
     const handleClickLogout = () => {
         setLoginState(false);
         localStorage.removeItem("accessToken");
-        localStorage.clear();
+        localStorage.removeItem("email");
         navigate("/");
     };
 
