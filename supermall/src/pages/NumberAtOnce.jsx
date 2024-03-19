@@ -16,7 +16,7 @@ const StyledArrowDown2 = styled(SlArrowDown)`
   font-weight: bold;
   position: relative; /* 요소의 위치 조정을 위해 추가 */
   top: 2px;
-  right: -3.5px;
+  right: -0.75px;
 `;
 
 const NumberAtOnceContainer = styled.div`
@@ -43,7 +43,7 @@ const NumberAtOnceContent = styled.div`
   display: ${(props) => (props.$isOpen ? "block" : "none")};
   position: absolute;
   background-color: #ffffff;
-  min-width: 143px;
+  min-width: 155px;
   z-index: 1;
   border: 1px solid black;
   height: 130px;
