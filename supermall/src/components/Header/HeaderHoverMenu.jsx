@@ -1,8 +1,6 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import { NavLink } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { logout } from "../../redux/loginSlice";
+import { NavLink, useNavigate } from "react-router-dom";
 
 const UserHoverMenu = styled.ul`
     position: absolute;
@@ -42,11 +40,23 @@ const NavBarMenu = styled(NavStyle)`
     }
 `;
 
-function HeaderHoverMenu({ setIsHovered, loginState }) {
-    const dispatch = useDispatch();
+function HeaderHoverMenu({ setIsHovered }) {
+    const navigate = useNavigate();
+
+    const [loginState, setLoginState] = useState(false);
+
+    useEffect(() => {
+        const token = localStorage.getItem("accessToken");
+        if (token) {
+            setLoginState(true);
+        }
+    }, []);
 
     const handleClickLogout = () => {
-        dispatch(logout);
+        setLoginState(false);
+        localStorage.removeItem("accessToken");
+        localStorage.removeItem("email");
+        navigate("/");
     };
 
     return (
@@ -54,7 +64,7 @@ function HeaderHoverMenu({ setIsHovered, loginState }) {
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
         >
-            {loginState.email ? (
+            {loginState ? (
                 <>
                     <NavBarMenu to="/" onClick={handleClickLogout}>
                         <li>로그아웃</li>

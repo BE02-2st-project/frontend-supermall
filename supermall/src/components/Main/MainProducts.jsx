@@ -1,50 +1,47 @@
 import { useState, useEffect } from "react";
 import styled from "styled-components";
+import Card from "../Product/Card";
 
-
-const ProductContainer = styled.div`
-
-`;
-
-const ProductImages = styled.div`   
+const ProductImages = styled.div`
     justify-content: center;
     align-items: center;
     display: grid;
     grid-template-columns: repeat(4, 300px);
-    grid-template-rows: repeat(2, 300px); 
-    grid-gap: 20px;
+    grid-template-rows: repeat(2, 300px);
+    grid-gap: 1.5rem;
 `;
 
-const ProductImage = styled.img`
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+const ProductImage = styled.div`
+    width: 300px;
+    height: 300px;
 `;
 
-
-const MainProducts = ()=>{
-
+const MainProducts = () => {
     const [mainProductImgs, setMainProductImgs] = useState([]);
 
+    // 함수 따로 만들어서 비동기처리하기!???
     useEffect(() => {
-        fetch("https://raw.githubusercontent.com/ines012/supermall-data/main/sampleImg1.json")
-            .then((response) => response.json())
-            .then((data) => setMainProductImgs(data))
+        fetch("http://43.202.211.22:8080/api/items")
+            .then((res) => res.json())
+            .then((data) => setMainProductImgs(data));
     }, []);
 
-
-    return(
-<ProductContainer>
-    <ProductImages>
-                    {mainProductImgs.map((productData, i) => (
-                        <ProductImage key={i} src={productData.image} alt={`Image ${i+1}`} />
-                    ))}
-    </ProductImages>
-</ProductContainer>
-    )
-}
+    return (
+        <div>
+            <ProductImages>
+                {mainProductImgs.slice(10).map((card, i) => (
+                    <ProductImage>
+                        <Card
+                            key={card.id}
+                            name={card.name}
+                            price={card.price}
+                            imgURL={card.imgURL}
+                        />
+                    </ProductImage>
+                ))}
+            </ProductImages>
+        </div>
+    );
+};
 
 export default MainProducts;
-
-
-
