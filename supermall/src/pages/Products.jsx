@@ -114,7 +114,10 @@ function Products() {
 
     useEffect(() => {
         fetch("http://43.202.211.22:8080/api/items")
-            .then((res) => res.json())
+            .then((res) => {
+                console.log(res);
+                // res.json();
+            })
             .then((data) => setPosts(data));
     }, []);
 

@@ -15,16 +15,15 @@ const SnsImgContainer = styled.div`
     }
 `;
 */
+
 const SnsImgContainer = styled.div`
     display: flex;
     flex-direction: column;
-    align-items: center;
     gap: 1rem;
-    width: 70%;
-    margin: 1rem auto;
+    margin-top: 30px;
 
     @media (max-width: 768px) {
-        width: 80%; /* Adjust width for smaller screens */
+        width: 80%;
     }
 `;
 
@@ -77,15 +76,19 @@ const SnsImage = styled.img`
     object-fit: cover;
 `;
 
-const SnsImageMoreBtn = styled.button`
-    font-size: 15px;
-    font-weight: bolder;
-    color: white;
-    background-color: black;
-    border-radius: 10px;
-    padding: 13px 63px;
-    cursor: pointer;
-    margin-top: 30px;
+const SnsImageMoreBtn = styled.div`
+    display: flex;
+    justify-content: center;
+    button {
+        font-size: 15px;
+        font-weight: bolder;
+        color: white;
+        background-color: black;
+        border-radius: 10px;
+        padding: 13px 63px;
+        cursor: pointer;
+        margin-top: 30px;
+    }
 `;
 
 const MainSns = () => {
@@ -129,11 +132,9 @@ const MainSns = () => {
                 </SnsImageWrapper>
             </div>
 
-            <div>
-                <SnsImageMoreBtn onClick={loadMoreImages}>
-                    더보기
-                </SnsImageMoreBtn>
-            </div>
+            <SnsImageMoreBtn>
+                <button onClick={loadMoreImages}>더보기</button>
+            </SnsImageMoreBtn>
         </SnsImgContainer>
     );
 };

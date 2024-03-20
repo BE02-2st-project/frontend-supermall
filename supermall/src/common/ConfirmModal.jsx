@@ -65,6 +65,10 @@ const ControlButtonBox = styled.div`
     }
 `;
 function ConfirmModal({ setIsOpen, confirmText, onClickConfirm }) {
+    useEffect(() => {
+        document.body.style = `overflow: hidden`;
+        return () => (document.body.style = `overflow: auto`);
+    }, []);
     return (
         <>
             {createPortal(

@@ -4,6 +4,11 @@ import MainSns from "../components/Main/MainSns";
 import styled from "styled-components";
 import Card from "../components/Product/Card";
 
+const MainPageContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+`;
 const MainCardContainer = styled.div`
     margin: 0 8rem;
     display: flex;
@@ -28,32 +33,40 @@ const StyledMain = styled.main`
 
 const Main = () => {
     const [posts, setPosts] = useState([]);
-    // 함수 따로 만들어서 비동기처리하기!???
+
     useEffect(() => {
-        fetch("http://43.202.211.22:8080/api/items")
+        fetch("http://43.202.211.22:8080/api/cart", {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            method: "GET",
+        })
             .then((res) => res.json())
             .then((data) => setPosts(data));
     }, []);
 
-    console.log("access", Boolean(localStorage.getItem("accessToken")));
+    console.log(posts);
 
     return (
         <>
             <MainImgSlides />
-            <MainSns />
+            <MainPageContainer>
+                <MainSns />
 
-            <MainCardContainer>
-                {posts.slice(0, 10).map((post) => (
-                    <StyledMain>
-                        <Card
-                            key={post.id}
-                            name={post.name}
-                            price={post.price}
-                            imgURL={post.imgURL}
-                        />
-                    </StyledMain>
-                ))}
-            </MainCardContainer>
+                <MainCardContainer>
+                    {posts.slice(0, 10).map((post) => (
+                        <StyledMain>
+                            <Card
+                                key={post.id}
+                                name={post.name}
+                                price={post.price}
+                                imgURL={post.imgURL}
+                            />
+                        </StyledMain>
+                    ))}
+                </MainCardContainer>
+            </MainPageContainer>
         </>
     );
 };

@@ -205,9 +205,14 @@ function EditUser() {
         // fetch("")
     };
 
+    console.log(confirmOpen);
+
     return (
         <div>
-            <PageHeader title="마이페이지"></PageHeader>
+            <PageHeader
+                title="마이페이지"
+                handleHeaderClick={() => navigate("/mypage")}
+            ></PageHeader>
             <MyPageMenu order={1}></MyPageMenu>
             <MyPageForm id="edit-form" onSubmit={handleEditSubmit}>
                 <InputBox>
@@ -391,6 +396,7 @@ function EditUser() {
                         취소
                     </button>
                     <button
+                        type="button"
                         onClick={() => {
                             setConfirmOpen(true);
                             setButtonType("accept");
