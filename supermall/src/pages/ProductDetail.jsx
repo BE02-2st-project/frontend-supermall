@@ -233,117 +233,125 @@ const ProductDetailSizeOption = styled.button`
   width: 40px;
   height: 20px;
   background-color: white;
-  border: ${(props) => (props.isActive ? "1px solid #dddddd;" : "")};
+  border: ${(props) => (props.$isActive ? "1px solid #dddddd;" : "")};
   margin-right: 10px; //////// F S L 사이즈버튼 간격주기
+`;
+
+const ProductDetailNumbers = styled.div`
+  width: 370px;
+  height: 54px;
+  font-size: 13px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+`;
+
+const ProductDetailNumber = styled.div`
+  width: 120px;
+  height: 54px;
+  font-size: 13px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  color: #7a7a7a;
+`;
+
+const ProductDetailNumberOptions = styled.div`
+  width: 250px;
+  height: 54px;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+`;
+
+const ProductDetailNumberButton = styled.button`
+  width: 30px;
+  height: 30px;
+  font-size: 25px;
+  background-color: white;
+  border: 1px solid #7a7a7a;
+`;
+
+const StyledNonArrowInput = styled.input`
+border: 1px solid #7a7a7a;
+width:40px;
+height:30px;
+text-align:right;
+input::-webkit-outer-spin-button
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+  
+`;
+
+/////////////
+
+const ProductDetailBenefits = styled.div`
+  width: 370px;
+  height: 54px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+`;
+
+const ProductDetailBenefit = styled.div`
+  width: 120px;
+  height: 85px;
+  font-size: 13px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: flex-start;
+  color: #7a7a7a;
+`;
+
+const ProductDetailBenefitOption = styled.div`
+  width: 250px;
+  height: 85px;
+  font-size: 13px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  color: #7a7a7a;
+`;
+
+const ProductDetailDeliverys = styled.div`
+  width: 370px;
+  height: 54px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+`;
+
+const ProductDetailDeliveryOptions = styled.div`
+  width: 250px;
+  height: 54px;
+  font-size: 13px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: flex-start;
+  color: #7a7a7a;
+`;
+
+const FreeDelivery = styled.div`
+  width: 54px;
+  height: 24px;
+  font-size: 13px;
+  color: #7a7a7a;
 `;
 
 function ProductDetail() {
   const [isActive, setIsActive] = useState(false);
+  const [value, setValue] = useState(1);
 
   const ProductDetailSizeChoice = () => {
     setIsActive(!isActive);
   };
-
-  const ProductDetailNumbers = styled.div`
-    width: 250px;
-    height: 54px;
-    font-size: 13px;
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-  `;
-
-  const ProductDetailNumber = styled.div`
-    width: 120px;
-    height: 54px;
-    font-size: 13px;
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    align-items: center;
-    color: #7a7a7a;
-  `;
-
-  const ProductDetailNumberOptions = styled.div`
-    width: 250px;
-    height: 54px;
-    font-size: 13px;
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    flex-wrap: wrap;
-  `;
-
-  const ProductDetailSizesdd = styled.div`
-    width: 370px;
-    height: 54px;
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    // margin-top: 8px;
-  `;
-
-  const ProductDetailSizedd = styled.div`
-    width: 120px;
-    height: 54px;
-    font-size: 13px;
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    align-items: center;
-    color: #7a7a7a;
-  `;
-
-  const ProductDetailSizeOptionsdd = styled.div`
-    width: 250px;
-    height: 54px;
-    font-size: 13px;
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    align-items: center;
-    flex-wrap: wrap;
-  `;
-
-  const ProductDetailSizeOptiondd = styled.button`
-    width: 40px;
-    height: 20px;
-    background-color: white;
-    border: 1px solid #dddddd;
-    margin-right: 10px; ////////사이즈버튼 간격주기
-  `;
-
-  /////////////
-
-  const ProductDetailBenefits = styled.div`
-    width: 370px;
-    height: 54px;
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-  `;
-
-  const ProductDetailBenefit = styled.div`
-    width: 120px;
-    height: 85px;
-    font-size: 13px;
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    align-items: flex-start;
-    color: #9a9a9a;
-  `;
-
-  const ProductDetailBenefitOption = styled.div`
-    width: 250px;
-    height: 85px;
-    font-size: 13px;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: flex-start;
-    color: #7a7a7a;
-  `;
 
   return (
     <ProductDetailBackground>
@@ -420,19 +428,19 @@ function ProductDetail() {
           <ProductDetailSize>사이즈</ProductDetailSize>
           <ProductDetailSizeOptions>
             <ProductDetailSizeOption
-              isActive={isActive}
+              $isActive={isActive}
               onClick={ProductDetailSizeChoice}
             >
               F
             </ProductDetailSizeOption>
             <ProductDetailSizeOption
-              isActive={isActive}
+              $isActive={isActive}
               onClick={ProductDetailSizeChoice}
             >
               S
             </ProductDetailSizeOption>
             <ProductDetailSizeOption
-              isActive={isActive}
+              $isActive={isActive}
               onClick={ProductDetailSizeChoice}
             >
               L
@@ -442,21 +450,28 @@ function ProductDetail() {
         <ProductDetailNumbers>
           <ProductDetailNumber>수량</ProductDetailNumber>
           <ProductDetailNumberOptions>
-            <button>minus</button>
-            <input type="number" />
-            <button>plus</button>
+            <ProductDetailNumberButton
+              onClick={() => {
+                if (value > 1) setValue(value - 1);
+              }}
+            >
+              -
+            </ProductDetailNumberButton>
+            <StyledNonArrowInput
+              type="number"
+              value={value}
+              onChange={(e) => setValue(e.target.value)}
+            />
+            <ProductDetailNumberButton
+              onClick={() => {
+                setValue(value + 1);
+              }}
+            >
+              +
+            </ProductDetailNumberButton>
           </ProductDetailNumberOptions>
         </ProductDetailNumbers>
-        /////////////
-        <ProductDetailSizesdd>
-          <ProductDetailSizedd>사이즈</ProductDetailSizedd>
-          <ProductDetailSizeOptionsdd>
-            <ProductDetailSizeOptiondd />
-            <ProductDetailSizeOptiondd />
-            <ProductDetailSizeOptiondd />
-          </ProductDetailSizeOptionsdd>
-        </ProductDetailSizesdd>
-        //////////////
+
         <ProductDetailBenefits>
           <ProductDetailBenefit>혜택</ProductDetailBenefit>
           <ProductDetailBenefitOption>
@@ -466,6 +481,11 @@ function ProductDetail() {
             <p>전 상품 무료반품 서비스 제공</p>
           </ProductDetailBenefitOption>
         </ProductDetailBenefits>
+
+        <ProductDetailDeliverys>
+          <ProductDetailDeliveryOptions>배송</ProductDetailDeliveryOptions>
+          <FreeDelivery>무료배송</FreeDelivery>
+        </ProductDetailDeliverys>
       </ProductDetailFixedBar>
     </ProductDetailBackground>
   );
