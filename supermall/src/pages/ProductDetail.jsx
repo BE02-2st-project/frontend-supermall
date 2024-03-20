@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { HiOutlineShare } from "react-icons/hi";
 import { TiHeartOutline } from "react-icons/ti";
 import { IoStarOutline } from "react-icons/io5";
+import { BsQuestionSquare } from "react-icons/bs";
 
 const ProductDetailBackground = styled.div`
   width: 1330px;
@@ -58,7 +59,7 @@ const ProductDetailImg = styled.img`
 const ProductDetailFixedBar = styled.div`
   width: 370px;
   height: 1000px;
-  background-color: violet;
+  background-color: white;
   margin-left: 60px;
   display: flex;
   flex-direction: column;
@@ -126,7 +127,7 @@ const ProductDetailEvaluationRight = styled.div`
   display: flex;
   justify-content: center;
   flex-direction: row;
-  align-items: center;
+  align-items: flex-start;
 `;
 
 const StyledStarIcon = styled.div`
@@ -166,7 +167,6 @@ const ProductDetailColors = styled.div`
 
 const ProductDetailColor = styled.div`
   width: 120px;
-
   height: auto;
   font-size: 13px;
   display: flex;
@@ -207,7 +207,7 @@ const ProductDetailSizes = styled.div`
   // margin-top: 8px;
 `;
 
-const ProductDetailSize = styled.div`
+const ProductDetailTitle = styled.div`
   width: 120px;
   height: 54px;
   font-size: 13px;
@@ -246,25 +246,15 @@ const ProductDetailNumbers = styled.div`
   justify-content: flex-start;
 `;
 
-const ProductDetailNumber = styled.div`
-  width: 120px;
-  height: 54px;
-  font-size: 13px;
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: center;
-  color: #7a7a7a;
-`;
-
 const ProductDetailNumberOptions = styled.div`
   width: 250px;
   height: 54px;
-
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
   flex-wrap: wrap;
+
+  align-items: center;
 `;
 
 const ProductDetailNumberButton = styled.button`
@@ -295,6 +285,8 @@ const ProductDetailBenefits = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
+  margin-bottom: 15px;
+  margin-top: 10px;
 `;
 
 const ProductDetailBenefit = styled.div`
@@ -322,9 +314,11 @@ const ProductDetailBenefitOption = styled.div`
 const ProductDetailDeliverys = styled.div`
   width: 370px;
   height: 54px;
+  font-size: 13px;
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
+  margin-bottom: 15px;
 `;
 
 const ProductDetailDeliveryOptions = styled.div`
@@ -333,15 +327,68 @@ const ProductDetailDeliveryOptions = styled.div`
   font-size: 13px;
   display: flex;
   flex-direction: row;
-  justify-content: flex-start;
-  align-items: flex-start;
+  justify-content: space-between;
+  align-items: center;
   color: #7a7a7a;
 `;
 
-const FreeDelivery = styled.div`
-  width: 54px;
+const DeliveryOption = styled.div`
+  width: 100px;
   height: 24px;
   font-size: 13px;
+  color: #464646;
+  display: flex;
+  align-items: center;
+`;
+
+const StyledQuestionSquare = styled(BsQuestionSquare)`
+  font-size: 1.3rem;
+  margin-left: 7px;
+  &:hover {
+    cursor: pointer;
+  }
+`;
+
+const ProductDetailOrder = styled.div`
+  width: 370px;
+  height: 120px;
+  dispaly: flex;
+  flex-direction: column;
+  padding-bottom: 150px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #eeeeee;
+`;
+
+const ProductDetailPurchase = styled.button`
+  width: 370px;
+  height: 55px;
+  color: white;
+  font-size: 14px;
+  font-weight: bold;
+  background-color: #000000;
+  border-radius: 5px;
+  border: 0;
+  margin-bottom: 8px;
+`;
+const ProductDetailPocket = styled.button`
+  width: 370px;
+  height: 55px;
+  color: black;
+  font-size: 14px;
+  font-weight: bold;
+  background-color: #e9e9e9;
+  border-radius: 5px;
+  border: 0;
+`;
+
+const ProductDetailPresentProduct = styled.div`
+  width: 370px;
+  height: 40px;
+  dispaly: flex;
+  flex-direction: row;
+  margin-bottom: 12px;
+  font-size: 13px;
+  letter-spacing: -1px;
   color: #7a7a7a;
 `;
 
@@ -389,6 +436,7 @@ function ProductDetail() {
             <ProductDetailReviewCount>(294)</ProductDetailReviewCount>
           </ProductDetailEvaluationRight>
         </ProductDetailEvaluation>
+
         <ProductDetailColors>
           <ProductDetailColor>색상/팀</ProductDetailColor>
           <ProductDetailColorOptions>
@@ -425,7 +473,7 @@ function ProductDetail() {
           </ProductDetailColorOptions>
         </ProductDetailColors>
         <ProductDetailSizes>
-          <ProductDetailSize>사이즈</ProductDetailSize>
+          <ProductDetailTitle>사이즈</ProductDetailTitle>
           <ProductDetailSizeOptions>
             <ProductDetailSizeOption
               $isActive={isActive}
@@ -448,7 +496,7 @@ function ProductDetail() {
           </ProductDetailSizeOptions>
         </ProductDetailSizes>
         <ProductDetailNumbers>
-          <ProductDetailNumber>수량</ProductDetailNumber>
+          <ProductDetailTitle>수량</ProductDetailTitle>
           <ProductDetailNumberOptions>
             <ProductDetailNumberButton
               onClick={() => {
@@ -483,9 +531,34 @@ function ProductDetail() {
         </ProductDetailBenefits>
 
         <ProductDetailDeliverys>
-          <ProductDetailDeliveryOptions>배송</ProductDetailDeliveryOptions>
-          <FreeDelivery>무료배송</FreeDelivery>
+          <ProductDetailTitle>배달</ProductDetailTitle>
+          <ProductDetailDeliveryOptions>
+            <DeliveryOption>
+              <input style={{ marginRight: "5px" }} type="radio" />
+              무료배송
+              <StyledQuestionSquare />
+            </DeliveryOption>
+            <DeliveryOption>
+              <input style={{ marginRight: "5px" }} type="radio" />
+              매장픽업
+              <StyledQuestionSquare />
+            </DeliveryOption>
+          </ProductDetailDeliveryOptions>
         </ProductDetailDeliverys>
+
+        <ProductDetailOrder>
+          <ProductDetailPurchase>바로구매</ProductDetailPurchase>
+          <ProductDetailPocket>장바구니</ProductDetailPocket>
+        </ProductDetailOrder>
+
+        <ProductDetailPresentProduct>
+          [UNISEX] 스포티브 바시티 엠블럼 언스트럭쳐 볼캡 클리블랜드 <br />
+          가디언스
+        </ProductDetailPresentProduct>
+        <ProductDetailPresentProduct>
+          <span style={{ marginRight: "50px" }}>상품코드</span>
+          <span> 3ACPV094N-45PKM</span>
+        </ProductDetailPresentProduct>
       </ProductDetailFixedBar>
     </ProductDetailBackground>
   );
