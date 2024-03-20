@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import PageHeader from "../components/common/PageHeader";
+import PageHeader from "../common/PageHeader";
 import InputSignup from "../components/User/InputSignup";
 import { IoIosArrowUp } from "react-icons/io";
 import { IoIosArrowDown } from "react-icons/io";
 import naver_logo from "../assets/naver_logo_circle.png";
 import kakao_logo from "../assets/kakao_logo_circle.png";
 import TOS from "../components/User/TOS";
+import { useNavigate } from "react-router-dom";
 
 const SignUpContainer = styled.div`
-    width: 700px;
+    max-width: 700px;
     margin: 3rem auto;
     display: flex;
     flex-direction: column;
@@ -136,36 +137,68 @@ const SignupSNSLogo = styled.div`
     }
 `;
 
-const initState = {
-    email: "",
-    password: "",
-    passwordCheck: "",
-};
-
 function Signup() {
+    const navigate = useNavigate();
+
     // 회원가입 작성란
-    const [signupParam, setSignupParam] = useState({ ...initState });
+    const [signupParam, setSignupParam] = useState({
+        email: "",
+        password: "",
+        passwordCheck: "",
+    });
+
+    // 작성란 유효여부
     const [isValidEmail, setIsValidEmail] = useState(false);
     const [isValidPassword, setIsValidPassword] = useState(false);
     const [isSamePassword, setIsSamePassword] = useState(false);
-    const [isDisabled, setIsDisabled] = useState(false);
+    const [allValid, setAllValid] = useState(false);
 
     // 이용약관 및 개인정보 수집 동의 파트
     const [isAgreeOpen, setIsAgreeOpen] = useState(false);
     const [fullAgree, setFullAgree] = useState(false);
     const [requireCheck, setRequireCheck] = useState(false);
 
+    // 회원가입 버튼 활성화
+    const [isDisabled, setIsDisabled] = useState(false);
+
+    useEffect(() => {
+        setAllValid(isValidEmail && isValidPassword && isSamePassword);
+    }, [isValidEmail, isValidPassword, isSamePassword]);
+
     useEffect(() => {
         // 하나라도 유효하지 않으면 disabled="true"
-        if (isValidEmail && isValidPassword && isSamePassword && requireCheck) {
+        if (allValid && (requireCheck || fullAgree)) {
             setIsDisabled(false);
         } else {
             setIsDisabled(true);
         }
-    }, [isValidEmail, isValidPassword, isSamePassword, requireCheck]);
+    }, [allValid, requireCheck, fullAgree]);
 
     const handleSubmitSignup = (event) => {
         event.preventDefault();
+
+        fetch("http://43.202.211.22:8080/api/signup", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                email: signupParam.email,
+                password: signupParam.password,
+            }),
+        })
+            .then((response) => {
+                if (response.ok) {
+                    console.log("회원가입이 성공하였습니다.");
+                    navigate("/login");
+                } else {
+                    // 회원가입이 실패한 경우
+                    console.error("회원가입에 실패하였습니다.");
+                }
+            })
+            .catch((error) => {
+                console.error("회원가입 중 오류가 발생하였습니다:");
+            });
     };
 
     return (
@@ -174,7 +207,7 @@ function Signup() {
             <SignUpContainer>
                 <SignupRequireBox>
                     <h3>필수정보</h3>
-                    <SignupForm id="signup-form">
+                    <SignupForm id="signup-form" onSubmit={handleSubmitSignup}>
                         <InputSignup
                             label="이메일"
                             type="text"
@@ -256,7 +289,7 @@ function Signup() {
                 )}
 
                 <SignupSubmitBtn $isDisabled={isDisabled}>
-                    <button onSubmit={handleSubmitSignup} disabled={isDisabled}>
+                    <button disabled={isDisabled} form="signup-form">
                         회원가입
                     </button>
                 </SignupSubmitBtn>
