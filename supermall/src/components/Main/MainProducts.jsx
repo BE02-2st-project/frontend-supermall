@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
 import styled from "styled-components";
+import { addItem } from "../../redux/cartSlice";
 
 
 const ProductContainer = styled.div`
@@ -24,6 +26,8 @@ const ProductImage = styled.img`
 
 const MainProducts = ()=>{
 
+    const dispatch= useDispatch();
+
     const [mainProductImgs, setMainProductImgs] = useState([]);
 
     useEffect(() => {
@@ -40,7 +44,14 @@ const MainProducts = ()=>{
                         <ProductImage key={i} src={productData.image} alt={`Image ${i+1}`} />
                     ))}
     </ProductImages>
+
+    <button onClick={()=>{
+    dispatch(addItem({id: 1 , image: "https://media.istockphoto.com/id/118358120/photo/red-baseball-cap.jpg?s=2048x2048&w=is&k=20&c=D__s6a7tynPVAfzQ7_6Zuj96-T7bbjB03w14mkHzh9g=",title: "cap", price: "55,000원"}))
+}}>주문하기</button>
+
 </ProductContainer>
+
+
     )
 }
 

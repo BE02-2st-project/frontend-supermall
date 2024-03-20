@@ -8,6 +8,8 @@ function PaymentInfo(){
         height: 24vw;
         border: 3px solid black;
         padding: 15px 15px;
+        block-size: fit-content;
+
 
         button{
             width: 100%;
