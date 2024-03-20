@@ -1,6 +1,11 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { PiPlusSquare } from "react-icons/pi";
+import { useNavigate } from "react-router-dom";
+
+const CardStyle = styled.div`
+    cursor: pointer;
+`;
 
 ///카드이미지
 const StyledProductImg = styled.img`
@@ -49,17 +54,21 @@ const StyledPlusImg = styled(PiPlusSquare)`
     left: 4px;
 `;
 
-const Card = ({ name, price, imgURL }) => {
+const Card = ({ category, itemInfo }) => {
     const [isHover, setIsHover] = useState(false);
-    const sampleUrl =
-        "https://cdn.pixabay.com/photo/2017/02/15/12/12/cat-2068462_640.jpg";
+    const navigate = useNavigate();
+    const MoveDetailItem = (id) => {
+        navigate(`/products/${category}/${id}`);
+    };
+
+    /* 상품 특징 랜덤 꾸미기 */
 
     return (
-        <div>
+        <CardStyle onClick={() => MoveDetailItem(itemInfo.id)}>
             <StyledProductImg
                 // src={isHover ? sampleUrl : imgURL}
-                src={imgURL}
-                alt={`${name} image`}
+                src={itemInfo.imgURLs[0]?.imageURL}
+                alt={itemInfo.name}
                 $isHover={isHover}
                 onMouseEnter={() => setIsHover(true)}
                 onMouseLeave={() => setIsHover(false)}
@@ -68,10 +77,10 @@ const Card = ({ name, price, imgURL }) => {
             <StyledProductIntroduction>
                 <StyledProductIntroductionName>
                     <span style={{ color: "#a12ce7" }}>[노정의 착용]</span>
-                    {name}
+                    <span>{itemInfo.name}</span>
                 </StyledProductIntroductionName>
 
-                <div>{price}원</div>
+                <div>{Number(itemInfo.price).toLocaleString("ko-KR")}원</div>
 
                 <StyledProductIntroductionColor>
                     <StyledProductIntroductionColorBox
@@ -94,7 +103,7 @@ const Card = ({ name, price, imgURL }) => {
                     </StyledProductIntroductionColorBox>
                 </StyledProductIntroductionColor>
             </StyledProductIntroduction>
-        </div>
+        </CardStyle>
     );
 };
 

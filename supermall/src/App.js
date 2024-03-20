@@ -34,11 +34,11 @@ const router = createBrowserRouter([
             },
             {
                 // path: "/products/:category", // /item
-                path: "/products",
+                path: "/products/:category",
                 element: <Products />,
             },
             {
-                path: "/products/:productId",
+                path: "/products/:category/:itemId",
                 element: <ProductDetail />,
             },
             {

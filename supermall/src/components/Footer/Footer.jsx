@@ -152,7 +152,7 @@ function Footer() {
 
                 <FooterMenuRight>
                     <RowFlexStyle>
-                        <img src={footer_sns_logo} alt="" />
+                        <img src={footer_sns_logo} alt="sns logo" />
                     </RowFlexStyle>
                     <NumberInfo>
                         <span>CS CENTER</span>
