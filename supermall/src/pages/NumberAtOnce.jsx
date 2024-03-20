@@ -16,7 +16,7 @@ const StyledArrowDown2 = styled(SlArrowDown)`
   font-weight: bold;
   position: relative; /* 요소의 위치 조정을 위해 추가 */
   top: 2px;
-  right: -3.5px;
+  right: -0.75px;
 `;
 
 const NumberAtOnceContainer = styled.div`
@@ -40,10 +40,10 @@ const NumberAtOnceButton = styled.button`
 `;
 
 const NumberAtOnceContent = styled.div`
-  display: ${(props) => (props.isOpen ? "block" : "none")};
+  display: ${(props) => (props.$isOpen ? "block" : "none")};
   position: absolute;
   background-color: #ffffff;
-  min-width: 143px;
+  min-width: 155px;
   z-index: 1;
   border: 1px solid black;
   height: 130px;
@@ -143,7 +143,7 @@ const NumberAtOnce = ({ limit, setLimit }) => {
         {`${limit}개씩 보기`}
         <StyledArrowDown />
       </NumberAtOnceButton>
-      <NumberAtOnceContent isOpen={isOpen}>
+      <NumberAtOnceContent $isOpen={isOpen}>
         {/* '현재 상태'를 맨 위에 별도로 표시 (클릭 이벤트 제거) */}
         <NumberAtOnceContentElementnow onClick={() => setIsOpen(false)}>
           {`${limit}개씩 보기 `}

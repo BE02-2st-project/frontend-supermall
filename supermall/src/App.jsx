@@ -10,45 +10,45 @@ import MyPage from "./pages/MyPage";
 import Cart from "./pages/Cart";
 
 const router = createBrowserRouter([
-    {
-        path: "/",
-        element: <Root />,
-        errorElement: <Error />,
-        children: [
-            {
-                index: true,
-                element: <Main />,
-            },
-            {
-                path: "/products/:category", // /item
-                element: <Products />,
-            },
-            {
-                path: "/products/:productId",
-                element: <ProductDetail />,
-            },
-            {
-                path: "/login",
-                element: <Login />,
-            },
-            {
-                path: "/signup",
-                element: <Signup />,
-            },
-            {
-                path: "/mypage",
-                element: <MyPage />,
-            },
-            {
-                path: "/cart",
-                element: <Cart />,
-            },
-        ],
-    },
+  {
+    path: "/",
+    element: <Root />,
+    errorElement: <Error />,
+    children: [
+      {
+        index: true,
+        element: <Main />,
+      },
+      {
+        path: "/products", // /item
+        element: <Products />,
+      },
+      {
+        path: "/products/:productId",
+        element: <ProductDetail />,
+      },
+      {
+        path: "/login",
+        element: <Login />,
+      },
+      {
+        path: "/signup",
+        element: <Signup />,
+      },
+      {
+        path: "/mypage",
+        element: <MyPage />,
+      },
+      {
+        path: "/cart",
+        element: <Cart />,
+      },
+    ],
+  },
 ]);
 
 function App() {
-    return <RouterProvider router={router} />;
+  return <RouterProvider router={router} />;
 }
 
 export default App;
