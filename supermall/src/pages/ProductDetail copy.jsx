@@ -3,7 +3,6 @@ import styled from "styled-components";
 import { HiOutlineShare } from "react-icons/hi";
 import { TiHeartOutline } from "react-icons/ti";
 import { IoStarOutline } from "react-icons/io5";
-import { useParams } from "react-router-dom";
 
 const ProductDetailBackground = styled.div`
     width: 1330px;
@@ -234,7 +233,7 @@ const ProductDetailSizeOption = styled.button`
     width: 40px;
     height: 20px;
     background-color: white;
-    border: ${(props) => (props.$isActive ? "1px solid #dddddd;" : "")};
+    border: ${(props) => (props.isActive ? "1px solid #dddddd;" : "")};
     margin-right: 10px; //////// F S L 사이즈버튼 간격주기
 `;
 
@@ -340,9 +339,8 @@ const ProductDetailBenefitOption = styled.div`
 `;
 
 function ProductDetail() {
-    const { category, itemId } = useParams();
-
     const [isActive, setIsActive] = useState(false);
+
     const ProductDetailSizeChoice = () => {
         setIsActive(!isActive);
     };
