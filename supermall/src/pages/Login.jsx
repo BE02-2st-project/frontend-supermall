@@ -4,8 +4,7 @@ import naverLogo from "../assets/naver_logo.png";
 import kakoLogo from "../assets/kakao_logo.png";
 import InputLogin from "../components/User/InputLogin";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import PageHeader from "../components/common/PageHeader";
+import PageHeader from "../common/PageHeader";
 
 const LoginContainer = styled.div`
     margin: 0 2rem;
@@ -19,7 +18,7 @@ const LoginContainer = styled.div`
 `;
 
 const LoginForm = styled.form`
-    width: 500px;
+    max-width: 500px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -49,6 +48,11 @@ const LoginCheckbox = styled.div`
         font-size: 0.8rem;
         cursor: pointer;
     }
+`;
+
+const LoginReject = styled.div`
+    color: rgb(255, 54, 0);
+    font-size: 0.9rem;
 `;
 
 const LoginButton = styled.div`
@@ -120,44 +124,30 @@ const SignUpContainer = styled.div`
     }
 `;
 
-const initState = {
-    email: "",
-    password: "",
-};
-
 function Login() {
+    const regex = new RegExp(
+        /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i
+    );
     const navigate = useNavigate();
-    const [loginParam, setLoginParam] = useState({ ...initState });
 
-    /* 
-const formData = new FormData();
-  formData.append("email", email);
-  formData.append("password", password);
-
-  fetch("API 주소", {
-    method: "POST",
-    headers: {
-      "Content-Type": "multipart/form-data",
-    },
-    body: formData,
-  })
-    .then((response) => {
-      if (response.ok === true) {
-        return response.json();
-      }
-      throw new Error("에러 발생!");
-    })
-    .catch((error) => {
-      alert(error);
-    })
-    .then((data) => {
-      console.log(data);
+    const [loginParam, setLoginParam] = useState({
+        email: "",
+        password: "",
     });
-    */
 
     const [isValidEmail, setIsValidEmail] = useState(false);
     const [isValidPassword, setIsValidPassword] = useState(false);
     const [isDisabled, setIsDisabled] = useState(false);
+    const [showLoginError, setShowLoginError] = useState(false);
+    const [saveId, setSaveId] = useState(false);
+
+    useEffect(() => {
+        const savedEmailId = localStorage.getItem("savedEmailId");
+        if (savedEmailId) {
+            setLoginParam({ email: savedEmailId, password: "" });
+            setIsValidEmail(regex.test(savedEmailId));
+        }
+    }, []);
 
     useEffect(() => {
         // 하나라도 유효하지 않으면 disabled="true"
@@ -168,20 +158,45 @@ const formData = new FormData();
         }
     }, [isValidEmail, isValidPassword]);
 
-    const handleSubmitLogin = (event) => {
+    const handleSubmitLogin = async (event) => {
         event.preventDefault();
 
-        // doLogin(loginParam).then((data) => {
-        //     if (data.error) {
-        //     } else {
-        //         moveToPath("/");
-        //     }
-        // });
+        fetch("http://43.202.211.22:8080/api/login", {
+            method: "POST",
+            credentials: "include",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(loginParam),
+        })
+            .then((response) => {
+                if (response.ok) {
+                    return response.json();
+                } else {
+                    throw new Error("로그인 실패");
+                }
+            })
+            .then((data) => {
+                // Bearer 토큰 추출 및 localStorage에 토큰 저장
+                const accessToken = data.accessToken.split(" ")[1];
+                localStorage.setItem("accessToken", accessToken);
+                localStorage.setItem("email", loginParam.email);
+                console.log("로그인 성공");
+                if (saveId) {
+                    // 아이디 저장
+                    localStorage.setItem("savedEmailId", loginParam.email);
+                }
+                navigate("/");
+            })
+            .catch((error) => {
+                setShowLoginError(true);
+            });
     };
+
     return (
         <LoginContainer>
             <PageHeader title="로그인"></PageHeader>
-            <LoginForm id="login-form">
+            <LoginForm id="login-form" onSubmit={handleSubmitLogin}>
                 <div>
                     <InputLogin
                         type="text"
@@ -191,8 +206,8 @@ const formData = new FormData();
                         errorMessage="이메일 형식으로 입력해주세요"
                         loginParam={loginParam}
                         setLoginParam={setLoginParam}
-                        isValid={isValidEmail}
                         setIsValid={setIsValidEmail}
+                        inputValue={loginParam.email}
                     />
 
                     <InputLogin
@@ -203,25 +218,30 @@ const formData = new FormData();
                         errorMessage="비밀번호를 입력해주세요"
                         loginParam={loginParam}
                         setLoginParam={setLoginParam}
-                        isValid={isValidPassword}
                         setIsValid={setIsValidPassword}
+                        inputValue={loginParam.password}
                     />
                 </div>
 
                 <LoginCheckbox>
-                    <input type="checkbox" id="save-id" />
+                    <input
+                        type="checkbox"
+                        id="save-id"
+                        onChange={() => setSaveId(!saveId)}
+                    />
                     <label htmlFor="save-id">아이디 저장</label>
                 </LoginCheckbox>
+
+                {showLoginError && (
+                    <LoginReject>
+                        아이디/비밀번호를 정확히 입력했는지 확인해주세요.
+                    </LoginReject>
+                )}
 
                 <div>
                     <LoginButton $isDisabled={isDisabled}>
                         {/* <button onSubmit={handleLoginSubmit}>로그인</button> */}
-                        <button
-                            onSubmit={handleSubmitLogin}
-                            disabled={isDisabled}
-                        >
-                            로그인
-                        </button>
+                        <button disabled={isDisabled}>로그인</button>
                     </LoginButton>
 
                     <SNSLogin>

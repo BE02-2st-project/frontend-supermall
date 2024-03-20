@@ -1,10 +1,8 @@
-import React, { useState ,useEffect} from 'react';
-import styled from 'styled-components';
+import React, { useState, useEffect } from "react";
+import styled from "styled-components";
 import { GrNext } from "react-icons/gr";
 import { GrPrevious } from "react-icons/gr";
-import { Link, useNavigate } from "react-router-dom"
-
-
+import { Link, useNavigate } from "react-router-dom";
 
 const ImgSlides = styled.div`
     position: relative;
@@ -28,7 +26,7 @@ const Image = styled.img`
     width: 100%;
     height: 674px;
     object-fit: cover;
-    `;
+`;
 
 const Button = styled.button`
     position: absolute;
@@ -59,41 +57,55 @@ const TextOverlay = styled.div`
 `;
 
 const MainImgSlides = () => {
-const [currentSlide, setCurrentSlide] = useState(0);
-const [slideText, setSlideText] = useState(['sample text','sample text1','sample text2']);
-const [slideImgs, setSlideImgs] = useState([]);
-const navigate = useNavigate()
+    const [currentSlide, setCurrentSlide] = useState(0);
+    const [slideText, setSlideText] = useState([
+        "sample text",
+        "sample text1",
+        "sample text2",
+    ]);
+    const [slideImgs, setSlideImgs] = useState([]);
+    const navigate = useNavigate();
 
-   useEffect(() => {
-        fetch("https://raw.githubusercontent.com/ines012/supermall-data/main/sampleImg1.json")
+    useEffect(() => {
+        fetch(
+            "https://raw.githubusercontent.com/ines012/supermall-data/main/sampleImg1.json"
+        )
             .then((response) => response.json())
-            .then((data) => setSlideImgs(data))
+            .then((data) => setSlideImgs(data));
     }, []);
 
-
- const nextSlide = () => {
-        setCurrentSlide(currentSlide === slideImgs.length - 1 ? 0 : currentSlide + 1);
-   };
-
-  const prevSlide = () => {
-      setCurrentSlide(currentSlide === 0 ? slideImgs.length - 1 : currentSlide - 1);
+    const nextSlide = () => {
+        setCurrentSlide(
+            currentSlide === slideImgs.length - 1 ? 0 : currentSlide + 1
+        );
     };
 
-   return (
-      <ImgSlides>
-         <SlideContainer style={{ transform: `translateX(-${currentSlide * 100}%)` }}>
+    const prevSlide = () => {
+        setCurrentSlide(
+            currentSlide === 0 ? slideImgs.length - 1 : currentSlide - 1
+        );
+    };
+
+    return (
+        <ImgSlides>
+            <SlideContainer
+                style={{ transform: `translateX(-${currentSlide * 100}%)` }}
+            >
                 {slideImgs.map((image, i) => (
                     <Slide key={i}>
-                         <Image src={image.image} alt={`Slide ${i + 1}`}/>
-                       <TextOverlay>{slideText[i]}</TextOverlay>
-                    <LeftButton onClick={prevSlide}><GrPrevious /></LeftButton>
-                  <RightButton onClick={nextSlide}><GrNext /></RightButton>
-                  </Slide>
-              ))}
-                
-           </SlideContainer>
+                        <Image src={image.image} alt={`Slide ${i + 1}`} />
+                        <TextOverlay>{slideText[i]}</TextOverlay>
+                        <LeftButton onClick={prevSlide}>
+                            <GrPrevious />
+                        </LeftButton>
+                        <RightButton onClick={nextSlide}>
+                            <GrNext />
+                        </RightButton>
+                    </Slide>
+                ))}
+            </SlideContainer>
         </ImgSlides>
-     );
+    );
 };
 
 export default MainImgSlides;

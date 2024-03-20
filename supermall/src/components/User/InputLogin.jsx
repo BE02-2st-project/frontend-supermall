@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 
 const InputStyle = styled.input`
@@ -17,12 +17,6 @@ const ErrorStyle = styled.p`
     color: #ff3600;
 `;
 
-const InformStyle = styled.p`
-    font-size: 0.9rem;
-    font-weight: 500;
-    color: ${(props) => (props.ErrorOccured ? "#ff3600" : "#999")};
-`;
-
 export default function InputBox({
     type,
     id,
@@ -31,18 +25,23 @@ export default function InputBox({
     errorMessage,
     loginParam,
     setLoginParam,
-    isValid,
     setIsValid,
+    inputValue,
 }) {
     // 이메일 형식
     let regex = new RegExp(/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i);
-    const [inputValue, setInputValue] = useState("");
     const [showError, setShowError] = useState(false);
+
+    useEffect(() => {
+        const savedEmailId = localStorage.getItem("savedEmailId");
+        console.log("saveId", savedEmailId);
+        if (savedEmailId) {
+        }
+    }, []);
 
     const handleChange = (event) => {
         loginParam[event.target.name] = event.target.value.trim();
         setLoginParam({ ...loginParam });
-        setInputValue(event.target.value.trim());
 
         if (name === "email") {
             if (inputValue && regex.test(inputValue)) {
@@ -53,7 +52,7 @@ export default function InputBox({
             if (inputValue) {
                 // 빈값이 아니면 유효하게
                 setIsValid(true);
-                setShowError(true);
+                setShowError(false);
             }
         }
     };
@@ -67,7 +66,6 @@ export default function InputBox({
                 setIsValid(false);
                 setShowError(true);
             }
-            console.log(isValid);
         } else {
             if (!inputValue) {
                 // 빈값이면 유효하지 않음
@@ -77,7 +75,6 @@ export default function InputBox({
                 setIsValid(true);
                 setShowError(false);
             }
-            console.log(isValid);
         }
     };
 
