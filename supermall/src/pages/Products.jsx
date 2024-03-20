@@ -90,24 +90,33 @@ const NumberAtOnceStyle = styled.div`
 
 ////////////////////////// 밑에부터 아이템리스트
 
+const ItemListContainer = styled.div`
+    /* margin: 0 auto; */
+`;
+
 const MainCardContainer = styled.div`
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
-    align-items: center;
+    /* align-items: center; */
 `;
 
 const StyledMain = styled.main`
+    /* img { */
     @media screen and (min-width: 1080px) {
         width: 25%; /* 화면 너비가 1080px 이상일 때 */
     }
     @media screen and (max-width: 1080px) {
+        width: 33%; /* 화면 너비가 768px 이하일 때 */
+    }
+    @media screen and (max-width: 768px) {
         width: 50%; /* 화면 너비가 768px 이하일 때 */
     }
-    @media screen and (max-width: 500px) {
+    @media screen and (max-width: 450px) {
         width: 100%; /* 화면 너비가 768px 이하일 때 */
     }
     margin-bottom: 1rem;
+    /* } */
 `;
 
 function Products() {
@@ -143,19 +152,21 @@ function Products() {
                 </ProductRightMenuBar>
             </UpperMenuBar>
 
-            {posts && (
-                <MainCardContainer>
-                    {posts.slice(0, 10).map((post) => (
-                        <StyledMain key={post.id}>
-                            <Card
-                                key={post.id}
-                                itemInfo={post}
-                                category={category}
-                            />
-                        </StyledMain>
-                    ))}
-                </MainCardContainer>
-            )}
+            <ItemListContainer>
+                {posts && (
+                    <MainCardContainer>
+                        {posts.slice(0, 10).map((post) => (
+                            <StyledMain key={post.id}>
+                                <Card
+                                    key={post.id}
+                                    itemInfo={post}
+                                    category={category}
+                                />
+                            </StyledMain>
+                        ))}
+                    </MainCardContainer>
+                )}
+            </ItemListContainer>
 
             <Pagination
                 total={posts.length}
