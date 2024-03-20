@@ -58,7 +58,7 @@ const Card = ({ category, itemInfo }) => {
     const [isHover, setIsHover] = useState(false);
     const navigate = useNavigate();
     const MoveDetailItem = (id) => {
-        navigate(`/products/${category}/${id}`);
+        navigate(`/products/${category}/${id}`, { state: { data: itemInfo } });
     };
 
     /* 상품 특징 랜덤 꾸미기 */
