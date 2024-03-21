@@ -96,6 +96,9 @@ const TFootRow = styled.tr`
 
 function Cart() {
     const [cartItem, setCartItem] = useState([]);
+    const [cartProduct, setCartProduct] = useState([]);
+
+    const dispatch = useDispatch();
 
     useEffect(() => {
         const accessToken = localStorage.getItem("accessToken");
@@ -111,8 +114,6 @@ function Cart() {
                 setCartProduct(data.cartResponseDtoList);
             });
     }, [dispatch]);
-
-    console.log("cartItems", cartItems);
 
     const handleDeleteCart = (cartItemId) => {
         const accessToken = localStorage.getItem("accessToken");
