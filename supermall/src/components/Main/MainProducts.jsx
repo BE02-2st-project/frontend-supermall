@@ -1,6 +1,11 @@
 import { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
 import styled from "styled-components";
+<<<<<<< HEAD
+import { addItem } from "../../redux/cartSlice";
+=======
 import Card from "../Product/Card";
+>>>>>>> develop
 
 const ProductImages = styled.div`
     justify-content: center;
@@ -16,7 +21,15 @@ const ProductImage = styled.div`
     height: 300px;
 `;
 
+<<<<<<< HEAD
+
+const MainProducts = ()=>{
+
+    const dispatch= useDispatch();
+
+=======
 const MainProducts = () => {
+>>>>>>> develop
     const [mainProductImgs, setMainProductImgs] = useState([]);
 
     // 함수 따로 만들어서 비동기처리하기!???
@@ -26,6 +39,26 @@ const MainProducts = () => {
             .then((data) => setMainProductImgs(data));
     }, []);
 
+<<<<<<< HEAD
+
+    return(
+<ProductContainer>
+    <ProductImages>
+                    {mainProductImgs.map((productData, i) => (
+                        <ProductImage key={i} src={productData.image} alt={`Image ${i+1}`} />
+                    ))}
+    </ProductImages>
+
+    <button onClick={()=>{
+    dispatch(addItem({id: 1 , image: "https://media.istockphoto.com/id/118358120/photo/red-baseball-cap.jpg?s=2048x2048&w=is&k=20&c=D__s6a7tynPVAfzQ7_6Zuj96-T7bbjB03w14mkHzh9g=",title: "cap", price: "55,000원"}))
+}}>주문하기</button>
+
+</ProductContainer>
+
+
+    )
+}
+=======
     return (
         <div>
             <ProductImages>
@@ -43,5 +76,6 @@ const MainProducts = () => {
         </div>
     );
 };
+>>>>>>> develop
 
 export default MainProducts;
