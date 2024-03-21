@@ -36,7 +36,13 @@ const Main = () => {
         fetch("http://43.202.211.22:8080/api/items", {
             method: "GET",
         })
-            .then((res) => res.json())
+            .then((res) => {
+                if (!res.ok) {
+                    console.error("Failed to fetch data");
+                    return; // 에러를 무시하고 함수 종료
+                }
+                return res.json();
+            })
             .then((data) => setPosts(data));
     }, []);
 
@@ -50,7 +56,11 @@ const Main = () => {
                     <MainCardContainer>
                         {posts?.slice(0, 8).map((post) => (
                             <StyledMain key={post.id}>
-                                <Card key={post.id} itemInfo={post} />
+                                <Card
+                                    key={post.id}
+                                    category={post.category.category}
+                                    itemInfo={post}
+                                />
                             </StyledMain>
                         ))}
                     </MainCardContainer>

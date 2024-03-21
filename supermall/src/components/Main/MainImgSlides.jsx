@@ -3,23 +3,27 @@ import styled from "styled-components";
 import { GrNext } from "react-icons/gr";
 import { GrPrevious } from "react-icons/gr";
 import { Link, useNavigate } from "react-router-dom";
+import { SlArrowLeft } from "react-icons/sl";
+import { SlArrowRight } from "react-icons/sl";
 
 const ImgSlides = styled.div`
     /* position: relative; */
     width: 100%;
     height: 100%;
-    /* overflow: hidden; */
+    overflow: hidden;
     font-family: "Gill Sans", sans-serif;
 `;
 
 const SlideContainer = styled.div`
     display: flex;
-    transition: transform 0.5s ease;
+    transition: 0.5s ease;
 `;
 
 const Slide = styled.div`
     position: relative;
     min-width: 100%;
+
+    display: ${(props) => (props.$currentIndex ? "block" : "none")};
 `;
 
 const Image = styled.img`
@@ -28,24 +32,30 @@ const Image = styled.img`
     object-fit: cover;
 `;
 
-const Button = styled.button`
+const LeftButton = styled(SlArrowLeft)`
+    left: 10px;
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
     background: transparent;
     border: none;
-    color: white;
+    color: rgba(255, 255, 255, 0.9);
     font-size: 70px;
     cursor: pointer;
     z-index: 1;
 `;
 
-const LeftButton = styled(Button)`
-    left: 10px;
-`;
-
-const RightButton = styled(Button)`
+const RightButton = styled(SlArrowRight)`
     right: 10px;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: transparent;
+    border: none;
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 70px;
+    cursor: pointer;
+    z-index: 1;
 `;
 
 const TextOverlay = styled.div`
@@ -76,33 +86,6 @@ const TextOverlay = styled.div`
 
 const MainImgSlides = () => {
     const [currentSlide, setCurrentSlide] = useState(0);
-    const [slideText, setSlideText] = useState([
-        "sample text",
-        "sample text1",
-        "sample text2",
-    ]);
-    const [slideImgs, setSlideImgs] = useState([]);
-    const navigate = useNavigate();
-
-    useEffect(() => {
-        fetch(
-            "https://raw.githubusercontent.com/ines012/supermall-data/main/sampleImg1.json"
-        )
-            .then((response) => response.json())
-            .then((data) => setSlideImgs(data));
-    }, []);
-
-    const nextSlide = () => {
-        setCurrentSlide(
-            currentSlide === slideImgs.length - 1 ? 0 : currentSlide + 1
-        );
-    };
-
-    const prevSlide = () => {
-        setCurrentSlide(
-            currentSlide === 0 ? slideImgs.length - 1 : currentSlide - 1
-        );
-    };
 
     const slideImages = [
         {
@@ -149,13 +132,40 @@ const MainImgSlides = () => {
         },
     ];
 
+    const nextSlide = () => {
+        setCurrentIndex((prevIndex) =>
+            prevIndex === slideImages.length - 1 ? 0 : prevIndex + 1
+        );
+    };
+
+    const prevSlide = () => {
+        setCurrentIndex((prevIndex) =>
+            prevIndex === 0 ? slideImages.length - 1 : prevIndex - 1
+        );
+    };
+
+    /* 시간차 구현 */
+    const [currentIndex, setCurrentIndex] = useState(0);
+
+    useEffect(() => {
+        // 3초마다 이미지 변경
+        const intervalId = setInterval(() => {
+            setCurrentIndex((prevIndex) =>
+                prevIndex === 5 - 1 ? 0 : prevIndex + 1
+            );
+        }, 3000);
+
+        // 컴포넌트가 언마운트될 때 interval 제거
+        return () => clearInterval(intervalId);
+    }, [currentIndex]);
+
     return (
         <ImgSlides>
             <SlideContainer
                 style={{ transform: `translateX(-${currentSlide * 100}%)` }}
             >
                 {slideImages.map((content, i) => (
-                    <Slide key={i}>
+                    <Slide key={i} $currentIndex={i === currentIndex}>
                         <Image src={content.url} alt={`Slide ${i + 1}`} />
 
                         <TextOverlay $contentColor={content.color}>

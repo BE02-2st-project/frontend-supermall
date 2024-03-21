@@ -3,6 +3,7 @@ import styled from "styled-components";
 import PageHeader from "../common/PageHeader";
 import MyPageMenu from "../common/MyPageMenu";
 import Toggle from "../common/Toggle";
+import { useNavigate } from "react-router-dom";
 
 const UserPreview = styled.div`
     width: 90%;
@@ -112,9 +113,14 @@ function MyPage() {
     const [onNaver, setOnNaver] = useState(false);
     const [onKakao, setOnKakao] = useState(false);
 
+    const navigate = useNavigate();
     return (
         <div>
-            <PageHeader title="마이페이지"></PageHeader>
+            <PageHeader
+                title="마이페이지"
+                short={true}
+                handleHeaderClick={() => navigate("/mypage")}
+            ></PageHeader>
             <MyPageMenu order={0}></MyPageMenu>
             <UserPreview>
                 <UserName>

@@ -1,21 +1,27 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import PaymentInfo from "./PaymentInfo";
-import { useDispatch, useSelector } from "react-redux";
+import PaymentInfo from "../components/Cart/PaymentInfo";
+import { useDispatch } from "react-redux";
 import { addItem, deleteItem } from "../redux/cartSlice";
+import PageHeader from "../common/PageHeader";
+import MyPageMenu from "../common/MyPageMenu";
+import { useNavigate } from "react-router-dom";
 
 const CartContainer = styled.div`
+    width: 90%;
+    max-width: 1200px;
     display: flex;
-    justify-content: space-around;
-    margin: 3%;
-    overflow: auto;
+    justify-content: center;
+    margin: 0 auto;
+    gap: 1rem;
 `;
+
 const TableContainer = styled.div`
-    width: 70%;
+    width: 100%;
     height: 60vh;
 `;
 
-const SelectedDeleteBtn = styled.button`
+const SelectedDeleteBtn = styled.div`
     border: 1px solid #caccd5;
     padding: 5px 20px;
     background-color: transparent;
@@ -56,10 +62,10 @@ const TBodyRow = styled.tr`
     }
 `;
 
-const ItemDetails = styled.div`
+const ItemDetails = styled.td`
     display: flex;
     flex-direction: column;
-    margin-left: 20px;
+    gap: 1rem;
     align-items: center;
 
     img {
@@ -95,7 +101,6 @@ const TFootRow = styled.tr`
 `;
 
 function Cart() {
-    const [cartItem, setCartItem] = useState([]);
     const [cartProduct, setCartProduct] = useState([]);
 
     const dispatch = useDispatch();
@@ -140,9 +145,39 @@ function Cart() {
             });
     };
     console.log("product", cartProduct);
+    const navigate = useNavigate();
+
+    console.log(cartProduct);
+
+    const handleClickOrder = () => {
+        const accessToken = localStorage.getItem("accessToken");
+
+        fetch("http://43.202.211.22:8080/api/cart/orders", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${accessToken}`,
+            },
+            body: JSON.stringify({
+                cartOrderDtoList: cartProduct,
+            }),
+        }).then((res) => {
+            if (res.ok) {
+                console.log("ok");
+            } else {
+                throw new Error("주문 목록에 담기 실패");
+            }
+        });
+    };
 
     return (
         <div>
+            <PageHeader
+                title="장바구니"
+                handleHeaderClick={() => navigate("/mypage")}
+                short={true}
+            />
+            <MyPageMenu order={1} />
             <CartContainer>
                 <TableContainer>
                     <SelectedDeleteBtn>선택상품삭제</SelectedDeleteBtn>
@@ -220,7 +255,9 @@ function Cart() {
                         </tfoot>
                     </Table>
                 </TableContainer>
-                <PaymentInfo />
+
+                {/* 주문서 & 주문하기 버튼 */}
+                <PaymentInfo onClick={handleClickOrder} />
             </CartContainer>
         </div>
     );

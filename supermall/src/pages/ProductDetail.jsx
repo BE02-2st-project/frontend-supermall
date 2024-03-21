@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { HiOutlineShare } from "react-icons/hi";
 import { TiHeartOutline } from "react-icons/ti";
@@ -61,7 +61,7 @@ const ProductDetailFixedBar = styled.div`
 
     @media screen and (min-width: 1030px) {
         width: 450px;
-        top: 0;
+        top: 3rem;
         right: 2rem;
         position: fixed;
         margin: 2rem 1rem;
@@ -299,12 +299,8 @@ function ProductDetail() {
     /* 바로 주문하기 - id, count만*/
     const handleClickOrder = () => {
         if (selectSize) {
-            // const accessToken = Boolean(localStorage.getItem("accessToken"));
-            // const userLogin = Boolean(accessToken);
+            const accessToken = localStorage.getItem("accessToken");
             const userLogin = Boolean(localStorage.getItem("accessToken"));
-            const accessToken =
-                "eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJiYWNrZW5kMnRlYW0iLCJpYXQiOjE3MTA5OTgwODIsImV4cCI6MTcxMTYwMjg4MiwiZW1haWwiOiIxNzE3a3NvQG5hdmVyLmNvbSJ9.1YzAYa2F7V4Tif16ak1qYAek8X5Fg-40akK5SiklgF4";
-
             // Login 되어있는 상태이면 - POST요청 & 주문하기 페이지로 이동
             if (userLogin) {
                 fetch("http://43.202.211.22:8080/api/order", {
@@ -341,13 +337,6 @@ function ProductDetail() {
         if (selectSize) {
             const accessToken = localStorage.getItem("accessToken");
             const userLogin = Boolean(accessToken);
-            // const accessToken =
-            //     "eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJiYWNrZW5kMnRlYW0iLCJpYXQiOjE3MTA5OTgwODIsImV4cCI6MTcxMTYwMjg4MiwiZW1haWwiOiIxNzE3a3NvQG5hdmVyLmNvbSJ9.1YzAYa2F7V4Tif16ak1qYAek8X5Fg-40akK5SiklgF4";
-
-            console.log({
-                itemId: Number(itemInfo.id),
-                count: count,
-            });
 
             // Login 되어있는 상태이면 - POST요청
             if (userLogin) {

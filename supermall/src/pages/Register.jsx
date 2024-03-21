@@ -4,23 +4,6 @@ import MyPageMenu from "../common/MyPageMenu";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { BsImages } from "react-icons/bs";
-/* 
-{
-    "user_id" : 2,
-    "category" : "shoes",
-    "name" : "shoes_1",
-    "color" : "white",
-    "imgURL" : [
-        "imgURL1",
-        "imgURL2",
-        "imgURL3",
-        "imgURL4"
-    ],
-    "price" : 35000,
-    "stock" : 5,
-    "description" : "This is shoes_1"
-}
-*/
 
 const RegisterItemForm = styled.form`
     width: 90%;
@@ -99,10 +82,11 @@ function Resiger() {
     return (
         <>
             <PageHeader
-                title="마이페이지"
+                title="판매상품등록"
+                short={true}
                 handleHeaderClick={() => navigate("/mypage")}
             ></PageHeader>
-            <MyPageMenu order={2}></MyPageMenu>
+            <MyPageMenu order={4}></MyPageMenu>
 
             <RegisterItemForm onSubmit={handleSubmitRegister}>
                 <RegisterImages>

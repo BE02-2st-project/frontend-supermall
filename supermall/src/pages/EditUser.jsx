@@ -210,10 +210,11 @@ function EditUser() {
     return (
         <div>
             <PageHeader
-                title="마이페이지"
+                title="회원정보수정"
+                short={true}
                 handleHeaderClick={() => navigate("/mypage")}
             ></PageHeader>
-            <MyPageMenu order={1}></MyPageMenu>
+            <MyPageMenu order={3} />
             <MyPageForm id="edit-form" onSubmit={handleEditSubmit}>
                 <InputBox>
                     <div>아이디</div>

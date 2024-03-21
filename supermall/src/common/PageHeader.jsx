@@ -3,6 +3,7 @@ import styled from "styled-components";
 
 const ContainerTitle = styled.h1`
     width: 90%;
+    max-width: ${(props) => (props.$short ? "1200px" : "100%")};
     text-align: center;
     padding-top: 1rem;
     padding-bottom: 2rem;
@@ -11,10 +12,10 @@ const ContainerTitle = styled.h1`
     cursor: pointer;
 `;
 
-function PageMenu({ title, handleHeaderClick }) {
+function PageMenu({ title, handleHeaderClick, short }) {
     return (
         <div onClick={handleHeaderClick}>
-            <ContainerTitle>{title}</ContainerTitle>
+            <ContainerTitle $short={short}>{title}</ContainerTitle>
         </div>
     );
 }
