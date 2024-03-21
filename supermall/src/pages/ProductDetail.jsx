@@ -352,7 +352,7 @@ const StyledQuestionSquare = styled(BsQuestionSquare)`
 const ProductDetailOrder = styled.div`
     width: 370px;
     height: 120px;
-    dispaly: flex;
+    display: flex;
     flex-direction: column;
     padding-bottom: 150px;
     margin-bottom: 20px;
@@ -384,7 +384,7 @@ const ProductDetailPocket = styled.button`
 const ProductDetailPresentProduct = styled.div`
     width: 370px;
     height: 40px;
-    dispaly: flex;
+    display: flex;
     flex-direction: row;
     margin-bottom: 12px;
     font-size: 13px;
