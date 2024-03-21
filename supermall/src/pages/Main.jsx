@@ -10,7 +10,7 @@ const MainPageContainer = styled.div`
     align-items: center;
 `;
 const MainCardContainer = styled.div`
-    margin: 2rem 8rem 5rem 8rem;
+    margin: 2rem 3rem 5rem 3rem;
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
@@ -18,15 +18,14 @@ const MainCardContainer = styled.div`
 `;
 
 const StyledMain = styled.main`
+    width: 300px;
     @media screen and (min-width: 1080px) {
-        width: 20%; /* 화면 너비가 1080px 이상일 때 */
+        width: 350px; /* 화면 너비가 1080px 이상일 때 */
     }
-    @media screen and (max-width: 1080px) {
-        width: 33%; /* 화면 너비가 768px 이하일 때 */
+    @media screen and (max-width: 500) {
+        width: 250px; /* 화면 너비가 768px 이하일 때 */
     }
-    @media screen and (max-width: 500px) {
-        width: 50%; /* 화면 너비가 768px 이하일 때 */
-    }
+
     margin-bottom: 1rem;
 `;
 
@@ -43,6 +42,8 @@ const Main = () => {
 
     console.log(posts);
 
+    console.log(localStorage.getItem("accessToken"));
+
     return (
         <>
             <MainImgSlides />
@@ -51,7 +52,7 @@ const Main = () => {
 
                 {posts && (
                     <MainCardContainer>
-                        {posts.slice(0, 10).map((post) => (
+                        {posts?.slice(0, 8).map((post) => (
                             <StyledMain key={post.id}>
                                 <Card key={post.id} itemInfo={post} />
                             </StyledMain>

@@ -12,45 +12,45 @@ margin: 3%;
 overflow: auto;
 `
 const TableContainer = styled.div`
- width: 70%;
- height: 60vh;
- `
+    width: 70%;
+    height: 60vh;
+`;
 
- const SelectedDeleteBtn = styled.button`
- border: 1px solid #caccd5;
- padding: 5px 20px;
- background-color: transparent;
- margin-bottom: 20px;
- cursor: pointer;
- `
+const SelectedDeleteBtn = styled.button`
+    border: 1px solid #caccd5;
+    padding: 5px 20px;
+    background-color: transparent;
+    margin-bottom: 20px;
+    cursor: pointer;
+`;
 
 const Table = styled.table`
-  table-layout: auto; 
-  width: 100%;
-  border-top: 2px solid #caccd5;
-  border-bottom: 2px solid #caccd5;
-  margin : auto;
-  border-spacing: 0px 20px;
-  border-collapse: collapse;
+    table-layout: auto;
+    width: 100%;
+    border-top: 2px solid #caccd5;
+    border-bottom: 2px solid #caccd5;
+    margin: auto;
+    border-spacing: 0px 20px;
+    border-collapse: collapse;
 
-  input[type="checkbox"] {
-    accent-color: black;
-    width: 17px;
-    height: 17px;
-    cursor: pointer;
-  }
-`
+    input[type="checkbox"] {
+        accent-color: black;
+        width: 17px;
+        height: 17px;
+        cursor: pointer;
+    }
+`;
 const TheadRow = styled.tr`
-  height: 60px;
-  border-bottom: 2px solid #caccd5;
+    height: 60px;
+    border-bottom: 2px solid #caccd5;
 
-  button{
-    margin: 10px;
-  }
-`
+    button {
+        margin: 10px;
+    }
+`;
 const TBodyRow = styled.tr`
-height: 200px;
-border-bottom: 2px solid #caccd5;
+    height: 200px;
+    border-bottom: 2px solid #caccd5;
 
 th{
   font-weight: normal;
@@ -92,11 +92,12 @@ font-size: 20px;
 cursor: pointer
 `
 const TFootRow = styled.tr`
-  height: 100px;
-  color: #a3a5a3
-  `
+    height: 100px;
+    color: #a3a5a3;
+`;
 
 function Cart() {
+    const [cartItem, setCartItem] = useState([]);
 
   const cartItems = useSelector((state) => state.cart.cartItems);
   const dispatch = useDispatch();
