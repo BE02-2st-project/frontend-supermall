@@ -106,7 +106,13 @@ function Products() {
         fetch("http://43.202.211.22:8080/api/items")
             .then((res) => res.json())
             .then((data) => setPosts(data));
+
+        setPosts((prev) =>
+            prev.forEach((item) => item.category.category === category)
+        );
     }, []);
+
+    console.log(posts);
 
     return (
         <ProductsBackground>
@@ -131,7 +137,7 @@ function Products() {
             <ItemListContainer>
                 {posts && (
                     <MainCardContainer>
-                        {posts.slice(0, 10).map((post) => (
+                        {posts.map((post) => (
                             <StyledMain key={post.id}>
                                 <Card
                                     key={post.id}
@@ -145,7 +151,8 @@ function Products() {
             </ItemListContainer>
 
             <Pagination
-                total={posts.length}
+                // total={posts.length}
+                total={10}
                 limit={limit}
                 page={page}
                 setPage={setPage}
