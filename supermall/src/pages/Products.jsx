@@ -107,8 +107,9 @@ function Products() {
             .then((res) => res.json())
             .then((data) => setPosts(data));
 
+        // 카테고리 거르기
         setPosts((prev) =>
-            prev.forEach((item) => item.category.category === category)
+            prev.filter((item) => item.category.category === category)
         );
     }, []);
 

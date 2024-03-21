@@ -181,6 +181,12 @@ function LoginForm() {
                 setShowLoginError(true);
             });
     };
+
+    const handleKakaoLogin = () => {
+        const url = "http://43.202.211.22:8080/api/v1/auth/oauth2/kakao";
+        window.open(url);
+    };
+
     return (
         <LoginFormStyle id="login-form" onSubmit={handleSubmitLogin}>
             <div>
@@ -235,7 +241,7 @@ function LoginForm() {
                         <img src={naverLogo} alt="naver-logo" />
                         네이버 로그인
                     </button>
-                    <button type="button">
+                    <button type="button" onClick={handleKakaoLogin}>
                         <img src={kakoLogo} alt="kakao-logo" />
                         카카오 로그인
                     </button>
