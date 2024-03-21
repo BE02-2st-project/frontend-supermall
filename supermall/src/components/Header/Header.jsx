@@ -12,6 +12,7 @@ import HeaderHoverMenu from "./HeaderHoverMenu";
 const HeaderStyle = styled.header`
     position: sticky;
     top: 0;
+    z-index: 100;
 `;
 
 const HeaderTopBar = styled.div`
@@ -20,7 +21,6 @@ const HeaderTopBar = styled.div`
     color: white;
     text-align: center;
     line-height: 3rem;
-    z-index: 3000;
 `;
 
 const HeaderMenuBar = styled.div`
@@ -30,9 +30,8 @@ const HeaderMenuBar = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
-    z-index: 1500;
     background-color: ${(props) =>
-        props.isVisible ? "white" : "white"}; //"rgba(255, 255, 255, 0.9)"};
+        props.isVisible ? "white" : "rgba(255, 255, 255, 0.9)"};
 `;
 
 const MenuArray = styled.div`
@@ -93,6 +92,7 @@ const ScrollToTop = styled.button`
     border: none;
     font-size: 2.5rem;
     cursor: pointer;
+    z-index: 50;
 `;
 
 const ScrollButtonStyle = styled(IoIosArrowUp)`

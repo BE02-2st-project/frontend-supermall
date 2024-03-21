@@ -29,6 +29,10 @@ const MyPageMenuStyle = styled.div`
 function MyPageMenu({ order }) {
     return (
         <MyPageMenuStyle $order={order}>
+            <a href="/cart">장바구니</a>
+            <span>|</span>
+            <a href="/order">주문/결제</a>
+            <span>|</span>
             <a href="/mypage/edit">회원정보수정</a>
             <span>|</span>
             <a href="/mypage/register">판매상품등록</a>

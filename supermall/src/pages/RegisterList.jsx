@@ -9,10 +9,11 @@ function ResigerList() {
     return (
         <>
             <PageHeader
-                title="마이페이지"
+                short={true}
+                title="판매상품목록"
                 handleHeaderClick={() => navigate("/mypage")}
             ></PageHeader>
-            <MyPageMenu order={3}></MyPageMenu>;
+            <MyPageMenu order={5}></MyPageMenu>;
         </>
     );
 }
