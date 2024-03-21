@@ -1,62 +1,60 @@
 import styled from "styled-components"
 
+const PaymentInfoContainer = styled.div`
+width: 20vw;
+height: 24vw;
+border: 3px solid black;
+padding: 15px 15px;
+block-size: fit-content;
+
+div{
+display: flex;
+justify-content: space-between;
+ };
+
+button{
+    width: 100%;
+    background-color: black;
+    color: white;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-radius: 10px;
+    font-weight: bolder;
+    margin-top: 15px;
+    cursor: pointer;
+}
+`
+const PaymentInfoHeader = styled.div`
+border-bottom: 2px solid #caccd5;
+padding-bottom : 20px;
+`
+const PaymentInfoBody = styled.div`
+border-bottom: 2px solid #caccd5;
+padding-top: 20px;
+display: flex;
+flex-direction: column;
+
+div{
+margin-bottom : 20px;
+}
+
+p{
+display: inline;
+}
+
+`
+const PaymentInfoTotal = styled.div`
+padding-top: 20px;
+padding-bottom: 20px;
+
+p{
+display: inline;
+}
+`
 
 function PaymentInfo(){
 
-    const PaymentInfoContainer = styled.div`
-        width: 20vw;
-        height: 24vw;
-        border: 3px solid black;
-        padding: 15px 15px;
-        block-size: fit-content;
-
-        div{
-        display: flex;
-        justify-content: space-between;
-         };
-
-        button{
-            width: 100%;
-            background-color: black;
-            color: white;
-            padding-top: 10px;
-            padding-bottom: 10px;
-            border-radius: 10px;
-            font-weight: bolder;
-            margin-top: 15px;
-            cursor: pointer;
-        }
-    `
-    const PaymentInfoHeader = styled.div`
-        border-bottom: 2px solid #caccd5;
-        padding-bottom : 20px;
-    `
-    const PaymentInfoBody = styled.div`
-    border-bottom: 2px solid #caccd5;
-    padding-top: 20px;
-    display: flex;
-    flex-direction: column;
-
-    div{
-        margin-bottom : 20px;
-    }
-
-    p{
-        display: inline;
-    }
-    
-
-    `
-    const PaymentInfoTotal = styled.div`
-    padding-top: 20px;
-    padding-bottom: 20px;
-    
-    p{
-        display: inline;
-    }
-    `
-
-    return(
+      return(
 <PaymentInfoContainer>
     <PaymentInfoHeader>
         <h2>결제정보</h2>

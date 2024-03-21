@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components"
 import PaymentInfo from "./PaymentInfo"
+import { useDispatch, useSelector } from "react-redux";
+import { addItem, deleteItem } from "../redux/cartSlice";
+
 
 const CartContainer = styled.div`
 display: flex;
 justify-content: space-around;
-margin: 3%
+margin: 3%;
+overflow: auto;
 `
 const TableContainer = styled.div`
  width: 70%;
@@ -52,17 +55,32 @@ border-bottom: 2px solid #caccd5;
 th{
   font-weight: normal;
 }
-
-input[type="text"]{
-  width: 30px;
-  height: 30px;
-}
 `
 
 const ItemDetails = styled.div`
   display: flex;
   flex-direction: column;
   margin-left: 20px;
+  align-items: center;
+
+  img{
+    width: 150px;
+    height: 150px
+  }
+`
+
+const CountContainer = styled.div`
+  display: flex;
+
+
+  div{
+    width: 30px;
+    height: 30px;
+    border: 1px solid black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 `
 
 const BtnStyle = styled.button`
@@ -73,15 +91,6 @@ background-color: transparent;
 font-size: 20px;
 cursor: pointer
 `
-
-const CountChangeBtn = styled.button`
-  border: none;
-  background-color : transparent;
-  cursor: pointer;
-  text-decoration: underline;
-  margin-top : 10px;
-`
-
 const TFootRow = styled.tr`
   height: 100px;
   color: #a3a5a3
@@ -89,27 +98,54 @@ const TFootRow = styled.tr`
 
 function Cart() {
 
-  const [cartItem, setCartItem] = useState([]);
+  const cartItems = useSelector((state) => state.cart.cartItems);
+  const dispatch = useDispatch();
+  const [cartProduct, setCartProduct] = useState([])
 
   useEffect(() => {
-  
-    const accessToken =
-        "eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJiYWNrZW5kMnRlYW0iLCJpYXQiOjE3MTA5OTgwODIsImV4cCI6MTcxMTYwMjg4MiwiZW1haWwiOiIxNzE3a3NvQG5hdmVyLmNvbSJ9.1YzAYa2F7V4Tif16ak1qYAek8X5Fg-40akK5SiklgF4";
-
+    const accessToken = localStorage.getItem("accessToken");
     fetch("http://43.202.211.22:8080/api/cart-list", {
-        headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${accessToken}`,
-        },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
+      },
     })
-        .then((res) => res.json())
-        .then((data) => console.log(data));
-}, []);
+      .then((res) => res.json())
+      .then((data) => {
+        dispatch(addItem(data));
+        setCartProduct(data.cartResponseDtoList)
+      });
+  }, [dispatch]);
 
-    return  (      
-        <div>
-          <h2>장바구니</h2>
-<CartContainer>       
+  console.log('cartItems', cartItems)
+
+  const handleDeleteCart = (cartItemId) => {
+    const accessToken = localStorage.getItem("accessToken");
+    fetch(`http://43.202.211.22:8080/api/cart-list/${cartItemId}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
+      },
+    })
+      .then((res) => {
+      console.log(res);
+      if (res.ok) {
+          console.log("ok");
+       }
+       })
+      .then(() => {
+        dispatch(deleteItem({ id: cartItemId }));
+        setCartProduct(prev => {
+          return prev.filter(item => item.cartItemId !== cartItemId);
+        });
+      });
+  };
+  console.log('product',cartProduct)
+
+return  (
+<div>
+  <CartContainer>       
   <TableContainer>
   <SelectedDeleteBtn>선택상품삭제</SelectedDeleteBtn>
  <Table>
@@ -124,34 +160,36 @@ function Cart() {
           <th>삭제</th>
   </TheadRow>
   </thead>
+
   <tbody>
-      <TBodyRow>
-  <th><input type="checkbox"/></th>
-    <th>
-        <ItemDetails>
-        <h4>아이템이름</h4>
-        <p>색상</p>
-        <p>사이즈</p>
-        <p>옵션 변경</p>
-        </ItemDetails>
-    </th>
-    <th>
-      <div>
-      <BtnStyle>-</BtnStyle>
-     <input type="text"/>
-      <BtnStyle>+</BtnStyle>
-      </div>
-      <CountChangeBtn>수량변경</CountChangeBtn>
-       </th>
-    <th>
-      <p>0원</p>
-    </th>
-    <th>무료</th>
-    <th>100,000원</th>
-    <th>
-      <BtnStyle>X</BtnStyle>
-    </th>
-  </TBodyRow>
+      {
+      cartProduct && cartProduct?.map((cartItem) => (
+        <TBodyRow key={cartItem.cartItemId}>
+          <th><input type="checkbox" /></th>
+          <th>
+            <ItemDetails>
+              <img src={cartItem.imgUrl} alt="img"/>
+              <h4>{cartItem.itemName}</h4>
+            </ItemDetails>
+          </th>
+          <th>
+              <CountContainer>
+              <BtnStyle>-</BtnStyle>
+              <div>{cartItem.count}</div>
+              <BtnStyle>+</BtnStyle>
+              </CountContainer>
+           </th>
+          <th>
+            <p>0원</p>
+          </th>
+          <th>무료</th>
+          <th>{cartItem.totalPrice}원</th>
+          <th>
+            <BtnStyle onClick={() => handleDeleteCart(cartItem.cartItemId)}>X</BtnStyle>
+          </th>
+        </TBodyRow>
+      ))
+      }
     </tbody>
      <tfoot>
     <TFootRow>  
@@ -165,21 +203,9 @@ function Cart() {
  </TableContainer>
  <PaymentInfo/>
  </CartContainer> 
-     
-    </div>
-    )
-}
+     </div>
+  )
+                }
 
-
-// const handleDeleteCart = () => {
-
-// 	fetch(`http://43.202.211.22:8080/api/cart-list/${cartItemId}`, {
-// 	    method: "DELETE",
-// 	  })
-// 	  .then((res) => res.json())
-	  
-// 	  // 화면에서 삭제된 상태로 보이도록 +
-	  
-// }
    
 export default Cart;
