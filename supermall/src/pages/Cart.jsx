@@ -91,8 +91,10 @@ function Cart() {
     const [cartItem, setCartItem] = useState([]);
 
     useEffect(() => {
-        const accessToken =
-            "eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJiYWNrZW5kMnRlYW0iLCJpYXQiOjE3MTA5OTgwODIsImV4cCI6MTcxMTYwMjg4MiwiZW1haWwiOiIxNzE3a3NvQG5hdmVyLmNvbSJ9.1YzAYa2F7V4Tif16ak1qYAek8X5Fg-40akK5SiklgF4";
+        // const accessToken =
+        //     "eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJiYWNrZW5kMnRlYW0iLCJpYXQiOjE3MTA5OTgwODIsImV4cCI6MTcxMTYwMjg4MiwiZW1haWwiOiIxNzE3a3NvQG5hdmVyLmNvbSJ9.1YzAYa2F7V4Tif16ak1qYAek8X5Fg-40akK5SiklgF4";
+
+        const accessToken = localStorage.getItem("accessToken");
 
         fetch("http://43.202.211.22:8080/api/cart-list", {
             headers: {

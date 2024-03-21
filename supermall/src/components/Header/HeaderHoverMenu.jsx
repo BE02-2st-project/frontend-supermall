@@ -13,6 +13,7 @@ const UserHoverMenu = styled.ul`
     gap: 1rem;
     padding: 1.2rem;
     box-shadow: 2px 2px 2px #ddd;
+    z-index: 30;
     li {
         list-style: none;
         font-size: 1rem;

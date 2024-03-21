@@ -8,7 +8,6 @@ import { NavLink } from "react-router-dom";
 import { IoIosArrowUp } from "react-icons/io";
 import SearchBar from "./SearchBar";
 import HeaderHoverMenu from "./HeaderHoverMenu";
-import { useSelector } from "react-redux";
 
 const HeaderStyle = styled.header`
     position: sticky;

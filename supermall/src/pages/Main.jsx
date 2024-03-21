@@ -40,10 +40,6 @@ const Main = () => {
             .then((data) => setPosts(data));
     }, []);
 
-    console.log(posts);
-
-    console.log(localStorage.getItem("accessToken"));
-
     return (
         <>
             <MainImgSlides />

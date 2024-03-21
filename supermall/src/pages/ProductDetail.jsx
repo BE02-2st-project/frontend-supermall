@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { HiOutlineShare } from "react-icons/hi";
 import { TiHeartOutline } from "react-icons/ti";
@@ -10,6 +10,7 @@ import { FaPlus } from "react-icons/fa6";
 import { FiMinus } from "react-icons/fi";
 import ConfirmModal from "../common/ConfirmModal";
 import LoginModal from "../common/LoginModal";
+import DetailImages from "../components/Product/DetailImages";
 
 // 전체 박스 (이미지 -> 컨트롤박스 -> 상세이미지 순서)
 const ProductDetailBackground = styled.div`
@@ -46,41 +47,25 @@ const TopContainer = styled.div`
 `;
 
 //
-const DetailImageBox = styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    /* border-bottom: 1px solid #dddddd; */
-`;
-
-const ProductDetailPhotos = styled.div`
-    display: flex;
-    overflow: scroll;
-    justify-content: center;
-    align-items: center;
-    img {
-        width: 300px;
-    }
-`;
 
 /* =========== 고정 ============ */
 const ProductDetailFixedBar = styled.div`
     width: 500px;
     height: 100%;
-    background-color: ${(props) =>
-        props.$modalOn ? "rgba(0, 0, 0, 0.2)" : "white"};
+    background-color: ${(props) => (props.$modalOn ? "transparent" : "white")};
     display: flex;
     flex-direction: column;
     gap: 1rem;
-    padding: 3rem 0.5rem 1rem 0.5rem;
+    padding: 1rem 0.5rem 1rem 0.5rem;
     z-index: 3;
 
     @media screen and (min-width: 1030px) {
         width: 450px;
-        top: 2rem;
+        top: 0;
         right: 2rem;
         position: fixed;
         margin: 2rem 1rem;
+        margin-top: 6rem;
     }
 `;
 
@@ -156,7 +141,8 @@ const SizeLabel = styled.label`
     color: #666;
     border: 1px solid #ddd;
     cursor: pointer;
-    background-color: ${(props) => (props.$inputState ? "#ddd" : "white")};
+    background-color: ${(props) =>
+        props.$inputState ? "#ddd" : "transparent"};
 `;
 
 /* 수량 */
@@ -171,7 +157,7 @@ const ProductDetailNumberButton = styled.button`
     width: 30px;
     height: 30px;
     font-size: 1rem;
-    background-color: white;
+    background-color: transparent;
     border: 1px solid #ddd;
     cursor: pointer;
     display: flex;
@@ -181,6 +167,7 @@ const ProductDetailNumberButton = styled.button`
 
 const StyledNonArrowInput = styled.input`
     border: 1px solid #ddd;
+    background-color: transparent;
     width: 40px;
     height: 30px;
     text-align: center;
@@ -253,8 +240,9 @@ const PurchaseButton = styled.button`
 `;
 
 const InCartButton = styled(PurchaseButton)`
+    border: 1px solid black;
     color: black;
-    background-color: #e9e9e9;
+    background-color: transparent;
 `;
 
 const AdditionalInform = styled.div`
@@ -295,6 +283,8 @@ function ProductDetail() {
     const randomNum = Math.floor(Math.random() * 5) + 1;
     const randomSize = location.state.size;
 
+    console.log(itemInfo);
+
     /* Select */
     const [count, setCount] = useState(1);
     const [selectSize, setSelectSize] = useState("");
@@ -309,20 +299,36 @@ function ProductDetail() {
     /* 바로 주문하기 - id, count만*/
     const handleClickOrder = () => {
         if (selectSize) {
+            // const accessToken = Boolean(localStorage.getItem("accessToken"));
+            // const userLogin = Boolean(accessToken);
             const userLogin = Boolean(localStorage.getItem("accessToken"));
+            const accessToken =
+                "eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJiYWNrZW5kMnRlYW0iLCJpYXQiOjE3MTA5OTgwODIsImV4cCI6MTcxMTYwMjg4MiwiZW1haWwiOiIxNzE3a3NvQG5hdmVyLmNvbSJ9.1YzAYa2F7V4Tif16ak1qYAek8X5Fg-40akK5SiklgF4";
+
+            // Login 되어있는 상태이면 - POST요청 & 주문하기 페이지로 이동
             if (userLogin) {
-                // POST 요청
                 fetch("http://43.202.211.22:8080/api/order", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
+                        Authorization: `Bearer ${accessToken}`,
                     },
                     body: JSON.stringify({
-                        itemId: itemInfo.id,
-                        count: count,
+                        itemId: Number(itemInfo.id),
+                        count: Number(count),
                     }),
-                }).then((res) => res.json());
+                }).then((res) => {
+                    if (res.ok) {
+                        console.log("ok");
+                    } else {
+                        throw new Error("주문 목록에 담기 실패");
+                    }
+                });
+
+                // navigate("/order", { state: { data: itemInfo } });
+                navigate("/order");
             } else {
+                // Login 안되어있는 상태이면
                 setLoginModal(true);
             }
         } else {
@@ -333,10 +339,18 @@ function ProductDetail() {
     /* 장바구니에 넣기 - id, count만 */
     const handleClickCart = () => {
         if (selectSize) {
-            const userLogin = localStorage.getItem("accessToken");
-            setConfirmModal(true);
-            if (Boolean(userLogin)) {
-                // POST 요청
+            const accessToken = localStorage.getItem("accessToken");
+            const userLogin = Boolean(accessToken);
+            // const accessToken =
+            //     "eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJiYWNrZW5kMnRlYW0iLCJpYXQiOjE3MTA5OTgwODIsImV4cCI6MTcxMTYwMjg4MiwiZW1haWwiOiIxNzE3a3NvQG5hdmVyLmNvbSJ9.1YzAYa2F7V4Tif16ak1qYAek8X5Fg-40akK5SiklgF4";
+
+            console.log({
+                itemId: Number(itemInfo.id),
+                count: count,
+            });
+
+            // Login 되어있는 상태이면 - POST요청
+            if (userLogin) {
                 fetch("http://43.202.211.22:8080/api/cart", {
                     method: "POST",
                     headers: {
@@ -344,13 +358,26 @@ function ProductDetail() {
                         Authorization: `Bearer ${accessToken}`,
                     },
                     body: JSON.stringify({
-                        itemId: itemInfo.id,
-                        count: count,
+                        itemId: Number(itemInfo.id),
+                        count: Number(count),
                     }),
                 })
-                    .then((res) => res.json())
-                    .then((data) => console.log(data));
+                    .then((res) => {
+                        console.log(res);
+                        if (res.ok) {
+                            console.log("ok");
+                        } else {
+                            throw new Error("주문 목록에 담기 실패");
+                        }
+                    })
+                    .catch((error) => {
+                        console.error(error);
+                    });
+            } else {
+                // Login 안되어있는 상태이면 - redux 사용
             }
+            // 모달창 열기
+            setConfirmModal(true);
         } else {
             alert("사이즈를 선택하세요");
         }
@@ -360,19 +387,10 @@ function ProductDetail() {
         <ProductDetailBackground>
             <div>
                 <TopContainer>
-                    <DetailImageBox>
-                        <div>
-                            <img src="https://static-resource.mlb-korea.com/images/goods/thnail/m/20231226/3ACP6601N-50CGS-119577332567875203.png/dims/resize/828x828" />
-                        </div>
-                        <ProductDetailPhotos>
-                            <img src="https://static-resource.mlb-korea.com/images/goods/thnail/m/20231226/3ACP6601N-50CGS-119577332567875203.png/dims/resize/828x828" />
-                            <img src="https://static-resource.mlb-korea.com/images/goods/thnail/m/20231226/3ACP6601N-50CGS-119577332567875203.png/dims/resize/828x828" />
-                            <img src="https://static-resource.mlb-korea.com/images/goods/thnail/m/20231226/3ACP6601N-50CGS-119577332567875203.png/dims/resize/828x828" />
-                        </ProductDetailPhotos>
-                    </DetailImageBox>
+                    <DetailImages itemInfo={itemInfo} />
 
                     <ProductDetailFixedBar
-                        $modalOn={loginModal && confirmModal}
+                        $modalOn={loginModal || confirmModal}
                     >
                         <ControlHeader>
                             <h1>{itemInfo.name}</h1>
