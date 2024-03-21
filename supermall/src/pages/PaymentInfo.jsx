@@ -10,6 +10,10 @@ function PaymentInfo(){
         padding: 15px 15px;
         block-size: fit-content;
 
+        div{
+        display: flex;
+        justify-content: space-between;
+         };
 
         button{
             width: 100%;
@@ -20,6 +24,7 @@ function PaymentInfo(){
             border-radius: 10px;
             font-weight: bolder;
             margin-top: 15px;
+            cursor: pointer;
         }
     `
     const PaymentInfoHeader = styled.div`

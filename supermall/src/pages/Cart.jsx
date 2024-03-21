@@ -2,8 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components"
 import PaymentInfo from "./PaymentInfo"
-import selectedItem from "../redux/cartSlice";
-
 
 const CartContainer = styled.div`
 display: flex;
@@ -55,27 +53,16 @@ th{
   font-weight: normal;
 }
 
-img{
-  width: 100px;
-  height: 100px
-};
-
-div{
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-
-div{
-  display: flex;
-  flex-direction: column;
-  margin-left: 20px;
-}
-;
-
 input[type="text"]{
   width: 30px;
   height: 30px;
 }
+`
+
+const ItemDetails = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-left: 20px;
 `
 
 const BtnStyle = styled.button`
@@ -91,7 +78,8 @@ const CountChangeBtn = styled.button`
   border: none;
   background-color : transparent;
   cursor: pointer;
-  text-decoration: underline
+  text-decoration: underline;
+  margin-top : 10px;
 `
 
 const TFootRow = styled.tr`
@@ -101,16 +89,22 @@ const TFootRow = styled.tr`
 
 function Cart() {
 
-  const state = useSelector((state)=>state)
+  const [cartItem, setCartItem] = useState([]);
 
-//   const [posts, setPosts] = useState([1]);
+  useEffect(() => {
+  
+    const accessToken =
+        "eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJiYWNrZW5kMnRlYW0iLCJpYXQiOjE3MTA5OTgwODIsImV4cCI6MTcxMTYwMjg4MiwiZW1haWwiOiIxNzE3a3NvQG5hdmVyLmNvbSJ9.1YzAYa2F7V4Tif16ak1qYAek8X5Fg-40akK5SiklgF4";
 
-//   useEffect(() => {
-//     fetch("https://jsonplaceholder.typicode.com/posts")
-//         .then((res) => res.json())
-//         .then((data) => setPosts([...posts, ...data]))
-// }, [posts]);
-
+    fetch("http://43.202.211.22:8080/api/cart-list", {
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${accessToken}`,
+        },
+    })
+        .then((res) => res.json())
+        .then((data) => console.log(data));
+}, []);
 
     return  (      
         <div>
@@ -131,21 +125,15 @@ function Cart() {
   </TheadRow>
   </thead>
   <tbody>
-
-    {
-      state.selectedItem.map((item,i)=>
       <TBodyRow>
   <th><input type="checkbox"/></th>
     <th>
-      <div>
-    <img src="https://media.istockphoto.com/id/118358120/photo/red-baseball-cap.jpg?s=2048x2048&w=is&k=20&c=D__s6a7tynPVAfzQ7_6Zuj96-T7bbjB03w14mkHzh9g=" alt="image1"/>
-        <div>
-        <h4>{state.selectedItem[i].title}</h4>
+        <ItemDetails>
+        <h4>아이템이름</h4>
         <p>색상</p>
         <p>사이즈</p>
         <p>옵션 변경</p>
-        </div>
-      </div>
+        </ItemDetails>
     </th>
     <th>
       <div>
@@ -164,9 +152,6 @@ function Cart() {
       <BtnStyle>X</BtnStyle>
     </th>
   </TBodyRow>
-
-      )
-    }
     </tbody>
      <tfoot>
     <TFootRow>  
@@ -186,36 +171,15 @@ function Cart() {
 }
 
 
-// const OrderList = ({posts}) => 
-//     <>
-//     <th><input type="checkbox"/></th>
-//     <th>
-//       <div>
-//     <img src="https://media.istockphoto.com/id/118358120/photo/red-baseball-cap.jpg?s=2048x2048&w=is&k=20&c=D__s6a7tynPVAfzQ7_6Zuj96-T7bbjB03w14mkHzh9g=" alt="image1"/>
-//         <div>
-//         <h4>{posts[1].title}</h4>
-//         <p>색상</p>
-//         <p>사이즈</p>
-//         <p>옵션 변경</p>
-//         </div>
-//       </div>
-//     </th>
-//     <th>
-//       <div>
-//       <BtnStyle>-</BtnStyle>
-//      <input type="text"/>
-//       <BtnStyle>+</BtnStyle>
-//       </div>
-//       <CountChangeBtn>수량변경</CountChangeBtn>
-//        </th>
-//     <th>
-//       <p>0원</p>
-//     </th>
-//     <th>무료</th>
-//     <th>100,000원</th>
-//     <th>
-//       <BtnStyle>X</BtnStyle>
-//     </th>
-//     </>
+// const handleDeleteCart = () => {
+
+// 	fetch(`http://43.202.211.22:8080/api/cart-list/${cartItemId}`, {
+// 	    method: "DELETE",
+// 	  })
+// 	  .then((res) => res.json())
+	  
+// 	  // 화면에서 삭제된 상태로 보이도록 +
+	  
+// }
    
 export default Cart;
