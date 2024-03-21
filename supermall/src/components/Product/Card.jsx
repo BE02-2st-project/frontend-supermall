@@ -1,133 +1,122 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { PiPlusSquare } from "react-icons/pi";
+import { useNavigate } from "react-router-dom";
 
-const StyledContainer = styled.div`
-  width: 430px;
-  height: 605px;
-  display: flex;
-  justify-content: center;
-`;
-
-///카드
-const StyledCard = styled.div`
-  width: 430px;
-  height: 510px;
-  display: flex;
-  flex-direction: column;
-  flex-wrap: nowrap;
-  justify-content: space-between;
-  align-items: center;
-  &:hover {
+const CardStyle = styled.div`
     cursor: pointer;
-  }
 `;
 
 ///카드이미지
 const StyledProductImg = styled.img`
-  width: 415px;
-  height: 415px;
-  background-image: url("https://cdn.pixabay.com/photo/2017/02/15/12/12/cat-2068462_640.jpg");
-  background-size: cover;
-  transition: background-image 0.3s ease;
-
-  &:hover {
-    background-image: url("https://cdn.pixabay.com/photo/2014/04/13/20/49/cat-323262_640.jpg");
-  }
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    transition: 0.2s ease;
+    background-color: ${(props) => (props.$isHover ? "#ddd" : "transparent")};
 `;
-
-///
 
 /// 사진밑에 상품설명
 const StyledProductIntroduction = styled.div`
-  width: 407px;
-  height: 160px;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
-  position: relative;
-  top: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    position: relative;
+    gap: 1rem;
+    font-size: 1rem;
 `;
 
 /// 사진밑에 상품이름
 const StyledProductIntroductionName = styled.div`
-  font-size: 14px;
-  letter-spacing: -1px;
-`;
-
-/// 사진밑에 상품가격
-const StyledProductIntroductionPrice = styled.div`
-  font-size: 14px;
-  position: relative;
-  top: 17px;
+    font-size: 1rem;
+    letter-spacing: -1px;
 `;
 
 /// 사진밑에 상품색깔
 const StyledProductIntroductionColor = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: center;
-  position: relative;
-  top: 36px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 `;
 
 const StyledProductIntroductionColorBox = styled.div`
-  height: 15px;
-  width: 15px;
-  margin-right: 9px;
+    height: 15px;
+    width: 15px;
+    margin-right: 9px;
 `;
 
 /// 색깔 플러스 아이콘
 const StyledPlusImg = styled(PiPlusSquare)`
-  font-size: 1.3rem;
-  position: relative;
-  top: -2.4px;
-  left: 4px;
+    font-size: 1.3rem;
+    position: relative;
+    top: -2.4px;
+    left: 4px;
 `;
 
-const Card = ({ id, title, body }) => {
-  return (
-    <StyledContainer>
-      <StyledCard>
-        <div>
-          <StyledProductImg />
-        </div>
-        <StyledProductIntroduction>
-          <StyledProductIntroductionName>
-            <span style={{ color: "#a12ce7" }}>[노정의 착용]</span> 컬시브
-            레터링 언스트럭쳐 볼캡 뉴욕양키스
-          </StyledProductIntroductionName>
+const Card = ({ category, itemInfo }) => {
+    const sizeCategory = {
+        apparel: ["XS", "S", "M", "L", "XL", "XXL"],
+        cap: ["F"],
+        shoes: ["230", "240", "250", "260", "270", "280"],
+    };
+    const randomSize = sizeCategory[category]?.slice(
+        0,
+        Math.floor(Math.random() * sizeCategory[category].length + 1) + 1
+    );
 
-          <StyledProductIntroductionPrice>
-            39,000원
-          </StyledProductIntroductionPrice>
+    const [isHover, setIsHover] = useState(false);
+    const navigate = useNavigate();
+    const MoveDetailItem = (id) => {
+        navigate(`/products/${category}/${id}`, {
+            state: { data: itemInfo, size: randomSize },
+        });
+    };
 
-          <StyledProductIntroductionColor>
-            <StyledProductIntroductionColorBox
-              style={{ backgroundColor: "#000000" }} /// 색깔 코드
+    /* 상품 특징 랜덤 꾸미기 */
+
+    return (
+        <CardStyle onClick={() => MoveDetailItem(itemInfo.id)}>
+            <StyledProductImg
+                // src={isHover ? sampleUrl : imgURL}
+                src={itemInfo.imgURLs[0]?.imageURL}
+                alt={itemInfo.name}
+                $isHover={isHover}
+                onMouseEnter={() => setIsHover(true)}
+                onMouseLeave={() => setIsHover(false)}
             />
-            <StyledProductIntroductionColorBox
-              style={{ backgroundColor: "#07513e" }} /// 색깔 코드
-            />
-            <StyledProductIntroductionColorBox
-              style={{ backgroundColor: "#000000" }} /// 색깔 코드
-            />
-            <StyledProductIntroductionColorBox
-              style={{ backgroundColor: "#111c38" }} /// 색깔 코드
-            />
-            <StyledProductIntroductionColorBox
-              style={{ backgroundColor: "#ba987c" }} /// 색깔 코드
-            />
-            <StyledProductIntroductionColorBox>
-              <StyledPlusImg />
-            </StyledProductIntroductionColorBox>
-          </StyledProductIntroductionColor>
-        </StyledProductIntroduction>
-      </StyledCard>
-    </StyledContainer>
-  );
+
+            <StyledProductIntroduction>
+                <StyledProductIntroductionName>
+                    <span style={{ color: "#a12ce7" }}>[노정의 착용]</span>
+                    <span>{itemInfo.name}</span>
+                </StyledProductIntroductionName>
+
+                <div>{Number(itemInfo.price).toLocaleString("ko-KR")}원</div>
+
+                <StyledProductIntroductionColor>
+                    <StyledProductIntroductionColorBox
+                        style={{ backgroundColor: "#000000" }} /// 색깔 코드
+                    />
+                    <StyledProductIntroductionColorBox
+                        style={{ backgroundColor: "#07513e" }} /// 색깔 코드
+                    />
+                    <StyledProductIntroductionColorBox
+                        style={{ backgroundColor: "#000000" }} /// 색깔 코드
+                    />
+                    <StyledProductIntroductionColorBox
+                        style={{ backgroundColor: "#111c38" }} /// 색깔 코드
+                    />
+                    <StyledProductIntroductionColorBox
+                        style={{ backgroundColor: "#ba987c" }} /// 색깔 코드
+                    />
+                    <StyledProductIntroductionColorBox>
+                        <StyledPlusImg />
+                    </StyledProductIntroductionColorBox>
+                </StyledProductIntroductionColor>
+            </StyledProductIntroduction>
+        </CardStyle>
+    );
 };
 
 export default Card;

@@ -2,9 +2,6 @@ import React, { useState } from "react";
 import styled from "styled-components";
 
 const InputBox = styled.div`
-    /* grid-column: 2;
-    grid-row: ${(props) =>
-        props.$informMessage || props.$showError ? "span 2" : "span 1"}; */
     display: grid;
     grid-template-columns: minmax(100px, auto) minmax(500px, auto);
     gap: 1.5rem;
