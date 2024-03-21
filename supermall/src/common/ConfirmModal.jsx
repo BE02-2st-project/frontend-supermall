@@ -14,10 +14,12 @@ const Backdrop = styled.div`
 const Overlay = styled.div`
     position: absolute;
     width: 50%;
+    max-width: 500px;
     top: 65%;
     left: 50%;
     transform: translate(-50%, -50%);
     background-color: white;
+    z-index: 100;
 `;
 
 const ConfirmBox = styled.div`
@@ -64,7 +66,14 @@ const ControlButtonBox = styled.div`
         color: white;
     }
 `;
-function ConfirmModal({ setIsOpen, confirmText, onClickConfirm }) {
+function ConfirmModal({
+    setIsOpen,
+    title,
+    confirmText,
+    leftText,
+    rightText,
+    onClickConfirm,
+}) {
     useEffect(() => {
         document.body.style = `overflow: hidden`;
         return () => (document.body.style = `overflow: auto`);
@@ -77,7 +86,7 @@ function ConfirmModal({ setIsOpen, confirmText, onClickConfirm }) {
                     <Overlay>
                         <ConfirmBox>
                             <div>
-                                <h1>확인</h1>
+                                <h1>{title ? title : "확인"}</h1>
                                 <CloseIcons onClick={() => setIsOpen(false)} />
                             </div>
                             <ConfirmTextBox>{confirmText}</ConfirmTextBox>
@@ -86,9 +95,11 @@ function ConfirmModal({ setIsOpen, confirmText, onClickConfirm }) {
                                     type="button"
                                     onClick={() => setIsOpen(false)}
                                 >
-                                    취소
+                                    {leftText ? leftText : "취소"}
                                 </button>
-                                <button onClick={onClickConfirm}>확인</button>
+                                <button onClick={onClickConfirm}>
+                                    {rightText ? rightText : "확인"}
+                                </button>
                             </ControlButtonBox>
                         </ConfirmBox>
                     </Overlay>
