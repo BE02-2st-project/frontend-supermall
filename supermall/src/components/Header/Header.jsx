@@ -7,6 +7,8 @@ import LOGO from "../../assets/logo.svg";
 import { NavLink } from "react-router-dom";
 import { IoIosArrowUp } from "react-icons/io";
 import SearchBar from "./SearchBar";
+import HeaderHoverMenu from "./HeaderHoverMenu";
+import { useSelector } from "react-redux";
 
 const HeaderStyle = styled.header`
     position: sticky;
@@ -19,7 +21,7 @@ const HeaderTopBar = styled.div`
     color: white;
     text-align: center;
     line-height: 3rem;
-    z-index: 10;
+    z-index: 3000;
 `;
 
 const HeaderMenuBar = styled.div`
@@ -29,9 +31,9 @@ const HeaderMenuBar = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
-    z-index: 5;
+    z-index: 1500;
     background-color: ${(props) =>
-        props.isVisible ? "white" : "rgba(255, 255, 255, 0.8)"};
+        props.isVisible ? "white" : "white"}; //"rgba(255, 255, 255, 0.9)"};
 `;
 
 const MenuArray = styled.div`
@@ -81,23 +83,6 @@ const LogoImg = styled.img`
     cursor: pointer;
 `;
 
-const UserHoverMenu = styled.ul`
-    position: absolute;
-    top: 3rem;
-    right: 1rem;
-    background-color: white;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1rem;
-    padding: 1.2rem;
-    li {
-        list-style: none;
-        font-size: 1rem;
-        font-weight: lighter;
-    }
-`;
-
 const ScrollToTop = styled.button`
     position: fixed;
     bottom: 20px;
@@ -111,12 +96,25 @@ const ScrollToTop = styled.button`
     cursor: pointer;
 `;
 
+const ScrollButtonStyle = styled(IoIosArrowUp)`
+    transition: opacity 5s ease;
+    opacity: ${(props) => (props.buttonNeed ? "1" : "0")};
+`;
+
 function Header() {
     const barRef = useRef();
     const [isVisible, setIsVisible] = useState(true);
     const [isHovered, setIsHovered] = useState(false);
     const [textOrder, setTextOrder] = useState(true);
     const [isSearchOpen, setIsSearchOpen] = useState(false);
+    const [loginState, setLoginState] = useState(false);
+
+    useEffect(() => {
+        const token = localStorage.getItem("accessToken");
+        if (token) {
+            setLoginState(true);
+        }
+    }, []);
 
     useEffect(() => {
         const handleIntersection = (entries) => {
@@ -165,11 +163,6 @@ function Header() {
         });
     };
 
-    const ScrollButtonStyle = styled(IoIosArrowUp)`
-        transition: opacity 5s ease;
-        opacity: ${(props) => (props.buttonNeed ? "1" : "0")};
-    `;
-
     return (
         <>
             <HeaderTopBar ref={barRef}>
@@ -216,29 +209,15 @@ function Header() {
                             <RiShoppingBagLine />
                         </NavStyle>
 
-                        {/* 로그인 이후와 이전 다르게 해야함 */}
                         <NavStyle
-                            to="/login"
+                            to={loginState ? "/mypage" : "/login"}
                             onMouseEnter={() => setIsHovered(true)}
                             onMouseLeave={() => setIsHovered(false)}
                         >
                             <LuUser2 />
                         </NavStyle>
                         {isHovered && (
-                            <UserHoverMenu
-                                onMouseEnter={() => setIsHovered(true)}
-                                onMouseLeave={() => setIsHovered(false)}
-                            >
-                                <NavBarMenu to="/login">
-                                    <li>로그인</li>
-                                </NavBarMenu>
-                                <NavBarMenu to="/signup">
-                                    <li>회원가입</li>
-                                </NavBarMenu>
-                                <NavBarMenu to="mypage">
-                                    <li>마이페이지</li>
-                                </NavBarMenu>
-                            </UserHoverMenu>
+                            <HeaderHoverMenu setIsHovered={setIsHovered} />
                         )}
                     </MenuArray>
                 </HeaderMenuBar>
@@ -246,7 +225,7 @@ function Header() {
 
             {buttonNeed && (
                 <ScrollToTop onClick={scrollToTop}>
-                    <ScrollButtonStyle buttonNeed={buttonNeed} />
+                    <ScrollButtonStyle $buttonNeed={buttonNeed} />
                 </ScrollToTop>
             )}
         </>

@@ -43,6 +43,9 @@ const SearchInput = styled.input`
     padding: 1rem;
     font-size: 1.5rem;
     width: 30%;
+    &:focus {
+        outline: none;
+    }
 `;
 
 const SearchIcon = styled(FiSearch)`
@@ -123,6 +126,10 @@ const Overlay = ({ setIsSearchOpen, searchWords, setSearchWords }) => {
         event.preventDefault();
         setSearchWords((prev) => [...prev, inputWord]);
         console.log(searchWords);
+
+        fetch(`http://43.202.211.22:8080/api/items/search?keyword=${inputWord}`)
+            .then((res) => res.json())
+            .then((data) => console.log(data));
     };
 
     useEffect(() => {
@@ -131,7 +138,7 @@ const Overlay = ({ setIsSearchOpen, searchWords, setSearchWords }) => {
     }, []);
 
     return (
-        <SearchModal>
+        <SearchModal onSubmit={handleSearchSubmit}>
             <SearchForm id="searchForm">
                 <SearchInput
                     type="search"
@@ -140,7 +147,7 @@ const Overlay = ({ setIsSearchOpen, searchWords, setSearchWords }) => {
                     onChange={handleSearchInput}
                 />
 
-                <SearchIcon onSubmit={handleSearchSubmit} />
+                <SearchIcon form="searchForm" />
                 <CloseSearchIcon onClick={() => setIsSearchOpen(false)} />
             </SearchForm>
             <SearchHistoryBox>
