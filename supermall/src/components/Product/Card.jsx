@@ -55,10 +55,22 @@ const StyledPlusImg = styled(PiPlusSquare)`
 `;
 
 const Card = ({ category, itemInfo }) => {
+    const sizeCategory = {
+        apparel: ["XS", "S", "M", "L", "XL", "XXL"],
+        cap: ["F"],
+        shoes: ["230", "240", "250", "260", "270", "280"],
+    };
+    const randomSize = sizeCategory[category]?.slice(
+        0,
+        Math.floor(Math.random() * sizeCategory[category].length + 1) + 1
+    );
+
     const [isHover, setIsHover] = useState(false);
     const navigate = useNavigate();
     const MoveDetailItem = (id) => {
-        navigate(`/products/${category}/${id}`);
+        navigate(`/products/${category}/${id}`, {
+            state: { data: itemInfo, size: randomSize },
+        });
     };
 
     /* 상품 특징 랜덤 꾸미기 */

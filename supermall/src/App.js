@@ -11,6 +11,7 @@ import Register from "./pages/Register";
 import RegisterList from "./pages/RegisterList";
 import EditUser from "./pages/EditUser";
 import Cart from "./pages/Cart";
+import Order from "./pages/Order";
 
 import { redirect } from "react-router-dom";
 
@@ -72,7 +73,10 @@ const router = createBrowserRouter([
             {
                 path: "/cart",
                 element: <Cart />,
-                loader: loader,
+            },
+            {
+                path: "/order",
+                element: <Order />,
             },
         ],
     },
