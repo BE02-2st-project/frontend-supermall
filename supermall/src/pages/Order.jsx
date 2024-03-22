@@ -194,26 +194,29 @@ function Order() {
             });
 
         setAbleCancel(orderItems.length === 0 ? false : true);
+        console.log("able", ableCancel, orderItems.length);
     }, [currentOrderId]);
 
     console.log(orderItems);
     console.log(currentOrderId);
 
     /* 주문 목록 취소하기 (가장 최신것만) */
-    const handleCancelOrder = (orderId) => {
+    const handleCancelOrder = () => {
         const accessToken = localStorage.getItem("accessToken");
-        fetch(`http://43.202.211.22:8080/api/order-list/${orderId}`, {
+        const orderId = orderItems[0].orderId;
+        console.log(orderId, "orderId");
+        fetch(`http://43.202.211.22:8080/api/order-list/{orderId}/${orderId}`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
                 Authorization: `Bearer ${accessToken}`,
             },
-        })
-            .then((res) => res.json())
-            .then((data) => {
-                console.log(data);
-                setOrderItems(data);
-            });
+        }).then((res) => {
+            if (res.ok) {
+                setOrderItems([]);
+                console.log("ok");
+            }
+        });
     };
     return (
         <div>
@@ -277,10 +280,11 @@ function Order() {
                         </Table>
                         <CancelButtonBox>
                             <CancelButton
-                                onClick={() =>
-                                    handleCancelOrder(currentOrderId)
-                                }
-                                disabled={ableCancel}
+                                onClick={handleCancelOrder}
+                                // onClick={() =>
+                                //     handleCancelOrder(currentOrderId)
+                                // }
+                                disabled={!ableCancel}
                             >
                                 주문 취소하기
                             </CancelButton>
@@ -293,7 +297,10 @@ function Order() {
                     <ColumnPayInfo>
                         <BlackRowPayInfo>
                             <div>총 상품금액</div>
-                            <div>100,000원</div>
+                            <div>
+                                {orderItems[0]?.orderTotalPrice.toLocaleString()}
+                                원
+                            </div>
                         </BlackRowPayInfo>
                         <RowPayInfo>
                             <div>상품 할인 금액</div>
@@ -313,12 +320,20 @@ function Order() {
                         <TotalPayResult>
                             <div>총 결제금액</div>
                             <div>
-                                <span>301,000</span>원
+                                <span>
+                                    {orderItems[0]?.orderTotalPrice.toLocaleString()}
+                                    원
+                                </span>
                             </div>
                         </TotalPayResult>
                         <BlackRowPayInfo>
                             <div>적립 예정 마일리지</div>
-                            <div>3,010원</div>
+                            <div>
+                                {parseInt(
+                                    orderItems[0]?.orderTotalPrice * 0.1
+                                ).toLocaleString()}
+                                원
+                            </div>
                         </BlackRowPayInfo>
                     </ColumnPayInfo>
 
