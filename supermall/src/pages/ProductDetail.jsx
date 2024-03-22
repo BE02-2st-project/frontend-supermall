@@ -406,8 +406,8 @@ function ProductDetail() {
                             <SelectLine>
                                 <div>색상/팀</div>
                                 <div>
-                                    <SelectColorOption src="https://static-resource.mlb-korea.com/images/goods/thnail/m/20230918/3ACP6601N-45CAS-111026574716200924.png/dims/resize/38x51" />
-                                    <SelectColorOption src="https://static-resource.mlb-korea.com/images/goods/thnail/m/20230908/3ACP6601N-43MTD-110157555778449602.png/dims/resize/38x51" />
+                                    <SelectColorOption src="http://static-resource.mlb-korea.com/images/goods/thnail/m/20230918/3ACP6601N-45CAS-111026574716200924.png/dims/resize/38x51" />
+                                    <SelectColorOption src="http://static-resource.mlb-korea.com/images/goods/thnail/m/20230908/3ACP6601N-43MTD-110157555778449602.png/dims/resize/38x51" />
                                 </div>
                             </SelectLine>
 
@@ -531,10 +531,10 @@ function ProductDetail() {
 
                 <DetailMoreImages>
                     <ProductDetailMenu>상품정보</ProductDetailMenu>
-                    <img src="https://static.mlb-korea.com/images/display/content/img_detail/2020/0.SABANGNET/1MLB/2MLBkr/MLBdetail/3ACP6601N-50BKS.jpg?v=1" />
-                    <img src="https://static.mlb-korea.com/images/display/content/img_detail/2020/0.SABANGNET/1MLB/2MLBkr/MLBcolor/3ACP6601N-color.jpg" />
-                    <img src="https://prd-static-fnf-online-mall.s3.ap-northeast-2.amazonaws.com/webresource/mlb-korea/images/display/content/img_detail/2020/0.SABANGNET/1MLB/1MLBmd1/3ACP6601N-50BKS-md1.jpg" />
-                    <img src="https://static.mlb-korea.com/images/display/content/img_detail/2020/0.SABANGNET/SIZEGUIDE/1N_COVER_FIT_BO.jpg" />
+                    <img src="http://static.mlb-korea.com/images/display/content/img_detail/2020/0.SABANGNET/1MLB/2MLBkr/MLBdetail/3ACP6601N-50BKS.jpg?v=1" />
+                    <img src="http://static.mlb-korea.com/images/display/content/img_detail/2020/0.SABANGNET/1MLB/2MLBkr/MLBcolor/3ACP6601N-color.jpg" />
+                    <img src="http://prd-static-fnf-online-mall.s3.ap-northeast-2.amazonaws.com/webresource/mlb-korea/images/display/content/img_detail/2020/0.SABANGNET/1MLB/1MLBmd1/3ACP6601N-50BKS-md1.jpg" />
+                    <img src="http://static.mlb-korea.com/images/display/content/img_detail/2020/0.SABANGNET/SIZEGUIDE/1N_COVER_FIT_BO.jpg" />
                 </DetailMoreImages>
             </div>
 
