@@ -96,7 +96,7 @@ const MainSns = () => {
 
     useEffect(() => {
         fetch(
-            "https://raw.githubusercontent.com/ines012/supermall-data/main/sampleImg1.json"
+            "http://raw.githubusercontent.com/ines012/supermall-data/main/sampleImg1.json"
         )
             .then((response) => response.json())
             .then((data) => setSnsImgs(data));
@@ -104,7 +104,7 @@ const MainSns = () => {
 
     const loadMoreImages = () => {
         fetch(
-            "https://raw.githubusercontent.com/ines012/supermall-data/main/sampleImg2.json"
+            "http://raw.githubusercontent.com/ines012/supermall-data/main/sampleImg2.json"
         )
             .then((response) => response.json())
             .then((data) => setSnsImgs((prevImgs) => [...prevImgs, ...data]));
