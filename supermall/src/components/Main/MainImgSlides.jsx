@@ -89,42 +89,42 @@ const MainImgSlides = () => {
 
     const slideImages = [
         {
-            url: "https://static-resource.mlb-korea.com/images/display/category/MTP/A01/A01/contents/10111_1045_305_KOR_20240229101552.jpg/dims/resize/1920x768",
+            url: "http://static-resource.mlb-korea.com/images/display/category/MTP/A01/A01/contents/10111_1045_305_KOR_20240229101552.jpg/dims/resize/1920x768",
             text1: "MLB 서울 시리즈",
             text2: "Relay Drop Open",
             text3: "MLB 월드투어 기념 컬렉션 보러가기",
             color: "black",
         },
         {
-            url: "https://static-resource.mlb-korea.com/images/display/category/MTP/A01/A01/contents/10111_1045_312_KOR_20240313163936.jpg/dims/resize/1920x768",
+            url: "http://static-resource.mlb-korea.com/images/display/category/MTP/A01/A01/contents/10111_1045_312_KOR_20240313163936.jpg/dims/resize/1920x768",
             text1: "Athletic Life Style",
             text2: "스포티브 바람막이",
             text3: "#MLB아우터 #바람막이 #윈드브레이커",
             color: "white",
         },
         {
-            url: "https://static-resource.mlb-korea.com/images/display/category/MTP/A01/A01/contents/10111_1045_310_KOR_20240311103124.jpg/dims/resize/1920x768",
+            url: "http://static-resource.mlb-korea.com/images/display/category/MTP/A01/A01/contents/10111_1045_310_KOR_20240311103124.jpg/dims/resize/1920x768",
             text1: "Spring New Edition",
             text2: "MLB DENIM",
             text3: "#MLB데님 #데님자켓 #데님팬츠 #데님볼캡",
             color: "white",
         },
         {
-            url: "https://static-resource.mlb-korea.com/images/display/category/MTP/A01/A01/contents/10111_1045_309_KOR_20240306185534.jpg/dims/resize/1920x768",
+            url: "http://static-resource.mlb-korea.com/images/display/category/MTP/A01/A01/contents/10111_1045_309_KOR_20240306185534.jpg/dims/resize/1920x768",
             text1: "TIME TO GO-OUT",
             text2: "KIDS HIP-OUTDOOR",
             text3: "#MLB키즈 #키즈바람막이 #고프코어 #바람막이",
             color: "black",
         },
         {
-            url: "https://static-resource.mlb-korea.com/images/display/category/MTP/A01/A01/contents/10111_1045_307_KOR_20240229165326.jpg/dims/resize/1920x768",
+            url: "http://static-resource.mlb-korea.com/images/display/category/MTP/A01/A01/contents/10111_1045_307_KOR_20240229165326.jpg/dims/resize/1920x768",
             text1: "Play With My Bestie",
             text2: "KIDS VARSITY",
             text3: "#MLB키즈 #키즈바시티 #MLB키즈바시티자켓 #MLB키즈셋업",
             color: "black",
         },
         {
-            url: "https://static-resource.mlb-korea.com/images/display/category/MTP/A01/A01/contents/10111_1045_311_KOR_20240312172012.jpg/dims/resize/1920x768",
+            url: "http://static-resource.mlb-korea.com/images/display/category/MTP/A01/A01/contents/10111_1045_311_KOR_20240312172012.jpg/dims/resize/1920x768",
             text1: "Premium Lifestyle",
             text2: "KIDS FASTBALL",
             text3: "#MLB키즈 #패스트볼 #키즈패스트볼",
