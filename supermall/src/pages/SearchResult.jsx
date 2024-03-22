@@ -4,7 +4,7 @@ import NumberAtOnce from "./NumberAtOnce";
 import ProductFilter from "../components/Product/ProductFilter";
 import Card from "../components/Product/Card";
 import Pagination from "../common/Pagination";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 
 const ProductsBackground = styled.div`
     width: 95%;
@@ -95,72 +95,40 @@ const StyledMain = styled.main`
     margin-bottom: 1rem;
 `;
 
-function Products() {
-    const { category } = useParams();
-    const [posts, setPosts] = useState([]);
-    const [limit, setLimit] = useState(36);
-    const [page, setPage] = useState(1);
-    const offset = (page - 1) * limit;
+function SearchResult() {
+    const { searchWord } = useParams();
+    const [searchResult, setSearchResult] = useState([]);
 
     useEffect(() => {
-        fetch("http://43.202.211.22:8080/api/items")
+        fetch(
+            `http://43.202.211.22:8080/api/items/search?keyword=${searchWord}`
+        )
             .then((res) => res.json())
             .then((data) => {
-                setPosts(data);
+                console.log(data);
+                setSearchResult(data);
             });
-
-        const colorset = posts.map((item) => {});
     }, []);
 
     return (
         <ProductsBackground>
-            <UpperMenuBar>
-                <ProductLeftMenuBar>
-                    <ProductLeftMenuBar>
-                        <CategoryButton>신상품순</CategoryButton>
-                        <SeperateLine />
-                        <CategoryButton>판매순</CategoryButton>
-                        <SeperateLine />
-                        <CategoryButton>높은가격순</CategoryButton>
-                        <SeperateLine />
-                        <CategoryButton>낮은가격순</CategoryButton>
-                    </ProductLeftMenuBar>
-                </ProductLeftMenuBar>
-                <ProductRightMenuBar>
-                    <NumberAtOnce limit={limit} setLimit={setLimit} />
-                    <ProductFilter />
-                </ProductRightMenuBar>
-            </UpperMenuBar>
-
             <ItemListContainer>
-                {posts && (
+                {searchResult && (
                     <MainCardContainer>
-                        {posts
-                            .filter(
-                                (item) => item.category.category === category
-                            )
-                            .map((post) => (
-                                <StyledMain key={post.id}>
-                                    <Card
-                                        key={post.id}
-                                        itemInfo={post}
-                                        category={category}
-                                    />
-                                </StyledMain>
-                            ))}
+                        {searchResult.map((post) => (
+                            <StyledMain key={post.id}>
+                                <Card
+                                    key={post.id}
+                                    itemInfo={post}
+                                    category={post.category.category}
+                                />
+                            </StyledMain>
+                        ))}
                     </MainCardContainer>
                 )}
             </ItemListContainer>
-
-            <Pagination
-                // total={posts.length}
-                total={10}
-                limit={limit}
-                page={page}
-                setPage={setPage}
-            />
         </ProductsBackground>
     );
 }
 
-export default Products;
+export default SearchResult;

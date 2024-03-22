@@ -44,10 +44,11 @@ const Table = styled.table`
 
     tr {
         border-bottom: 1px solid #ddd;
+        cursor: pointer;
     }
 
     tr:hover {
-        background-color: #ddd;
+        background-color: #ededed;
     }
 
     td:nth-child(3),
@@ -71,6 +72,9 @@ const ItemDescription = styled.div`
     text-align: left;
     display: flex;
     flex-direction: column;
+    > p {
+        font-weight: bold;
+    }
     > div {
         margin-top: 2rem;
     }
