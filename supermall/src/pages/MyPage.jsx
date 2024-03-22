@@ -157,7 +157,7 @@ function MyPage() {
                 <ToggleBox>
                     <div>
                         <img
-                            src="https://static-resource.mlb-korea.com/pc/static/images/my/btnNpay.png"
+                            src="http://static-resource.mlb-korea.com/pc/static/images/my/btnNpay.png"
                             alt="Naver"
                         />
                         <span>네이버 계정</span>
@@ -165,7 +165,7 @@ function MyPage() {
                     </div>
                     <div>
                         <img
-                            src="https://static-resource.mlb-korea.com/pc/static/images/cm/bg_kakao.png"
+                            src="http://static-resource.mlb-korea.com/pc/static/images/cm/bg_kakao.png"
                             alt="Kakao"
                         />
                         <span>카카오 계정</span>
