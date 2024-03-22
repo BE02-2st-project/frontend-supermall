@@ -158,18 +158,20 @@ function LoginForm() {
             },
             body: JSON.stringify(loginParam),
         })
-            .then((response) => {
-                if (response.ok) {
-                    return response.json();
+            .then((res) => {
+                if (res.ok) {
+                    return res.json();
                 } else {
                     throw new Error("로그인 실패");
                 }
             })
             .then((data) => {
+                console.log("user", data);
                 // Bearer 토큰 추출 및 localStorage에 토큰 저장
                 const accessToken = data.accessToken.split(" ")[1];
                 localStorage.setItem("accessToken", accessToken);
                 localStorage.setItem("email", loginParam.email);
+                localStorage.setItem("userId", data.userId);
                 console.log("로그인 성공");
                 if (saveId) {
                     // 아이디 저장
@@ -181,6 +183,12 @@ function LoginForm() {
                 setShowLoginError(true);
             });
     };
+
+    const handleKakaoLogin = () => {
+        const url = "http://43.202.211.22:8080/api/v1/auth/oauth2/kakao";
+        window.open(url);
+    };
+
     return (
         <LoginFormStyle id="login-form" onSubmit={handleSubmitLogin}>
             <div>
@@ -235,7 +243,7 @@ function LoginForm() {
                         <img src={naverLogo} alt="naver-logo" />
                         네이버 로그인
                     </button>
-                    <button type="button">
+                    <button type="button" onClick={handleKakaoLogin}>
                         <img src={kakoLogo} alt="kakao-logo" />
                         카카오 로그인
                     </button>

@@ -1,36 +1,77 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import PaymentInfo from "./PaymentInfo";
-import { useDispatch, useSelector } from "react-redux";
+import PaymentInfo from "../components/Cart/PaymentInfo";
+import { useDispatch } from "react-redux";
 import { addItem, deleteItem } from "../redux/cartSlice";
+import PageHeader from "../common/PageHeader";
+import MyPageMenu from "../common/MyPageMenu";
+import { useNavigate } from "react-router-dom";
+import { IoClose } from "react-icons/io5";
 
 const CartContainer = styled.div`
+    width: 90%;
+    max-width: 1200px;
     display: flex;
-    justify-content: space-around;
-    margin: 3%;
-    overflow: auto;
-`;
-const TableContainer = styled.div`
-    width: 70%;
-    height: 60vh;
+    justify-content: center;
+    margin: 0 auto;
+    gap: 1.5rem;
+
+    @media screen and (max-width: 1100px) {
+        flex-wrap: wrap;
+    }
 `;
 
-const SelectedDeleteBtn = styled.button`
+const TableContainer = styled.div`
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+`;
+
+const SelectedDeleteBtn = styled.div`
+    width: 8rem;
     border: 1px solid #caccd5;
-    padding: 5px 20px;
+    padding: 0.5rem 1rem;
     background-color: transparent;
-    margin-bottom: 20px;
     cursor: pointer;
+    &:hover {
+        background-color: black;
+        color: white;
+    }
 `;
 
 const Table = styled.table`
+    text-align: center;
+    vertical-align: center;
     table-layout: auto;
     width: 100%;
-    border-top: 2px solid #caccd5;
-    border-bottom: 2px solid #caccd5;
-    margin: auto;
+    border-top: 1px solid #666;
+    border-bottom: 1px solid #666;
     border-spacing: 0px 20px;
     border-collapse: collapse;
+    font-size: 0.9rem;
+    th {
+        border-bottom: 1px solid #999;
+        padding: 1rem 0.5rem;
+        font-weight: 400;
+    }
+    td {
+        padding: 0 0.2rem;
+    }
+
+    tr {
+        border-bottom: 1px solid #ddd;
+        cursor: pointer;
+    }
+
+    tr:hover {
+        background-color: #ededed;
+    }
+
+    td:nth-child(4),
+    td:nth-child(6) {
+        font-weight: bold;
+    }
 
     input[type="checkbox"] {
         accent-color: black;
@@ -39,27 +80,9 @@ const Table = styled.table`
         cursor: pointer;
     }
 `;
-const TheadRow = styled.tr`
-    height: 60px;
-    border-bottom: 2px solid #caccd5;
-
-    button {
-        margin: 10px;
-    }
-`;
-const TBodyRow = styled.tr`
-    height: 200px;
-    border-bottom: 2px solid #caccd5;
-
-    th {
-        font-weight: normal;
-    }
-`;
-
-const ItemDetails = styled.div`
+const ItemDetails = styled.td`
     display: flex;
-    flex-direction: column;
-    margin-left: 20px;
+    gap: 1rem;
     align-items: center;
 
     img {
@@ -68,8 +91,27 @@ const ItemDetails = styled.div`
     }
 `;
 
-const CountContainer = styled.div`
+const ItemDescription = styled.div`
+    text-align: left;
     display: flex;
+    flex-direction: column;
+    > p {
+        font-weight: bold;
+    }
+    > div {
+        margin-top: 2rem;
+    }
+
+    > div > p {
+        color: #666;
+        font-size: 0.8rem;
+    }
+`;
+
+const BtnContainer = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
     div {
         width: 30px;
@@ -85,9 +127,16 @@ const BtnStyle = styled.button`
     width: 30px;
     height: 30px;
     border: none;
-    background-color: transparent;
-    font-size: 20px;
     cursor: pointer;
+    font-size: 1.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: transparent;
+    &:hover {
+        background-color: #666;
+        color: white;
+    }
 `;
 const TFootRow = styled.tr`
     height: 100px;
@@ -95,9 +144,8 @@ const TFootRow = styled.tr`
 `;
 
 function Cart() {
-    const [cartItem, setCartItem] = useState([]);
     const [cartProduct, setCartProduct] = useState([]);
-
+    const [totalPrice, setTotalPrice] = useState(0);
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -110,6 +158,7 @@ function Cart() {
         })
             .then((res) => res.json())
             .then((data) => {
+                setTotalPrice(data.totalPrice);
                 dispatch(addItem(data));
                 setCartProduct(data.cartResponseDtoList);
             });
@@ -139,88 +188,139 @@ function Cart() {
                 });
             });
     };
-    console.log("product", cartProduct);
+    const navigate = useNavigate();
+
+    const handleClickOrder = () => {
+        const accessToken = localStorage.getItem("accessToken");
+
+        fetch("http://43.202.211.22:8080/api/cart/orders", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${accessToken}`,
+            },
+            body: JSON.stringify({
+                cartOrderDtoList: cartProduct,
+            }),
+        }).then((res) => {
+            if (res.ok) {
+                console.log("ok");
+            } else {
+                throw new Error("주문 목록에 담기 실패");
+            }
+        });
+        navigate("/order");
+    };
 
     return (
         <div>
+            <PageHeader
+                title="장바구니"
+                handleHeaderClick={() => navigate("/mypage")}
+                short={true}
+            />
+            <MyPageMenu order={1} />
+
             <CartContainer>
                 <TableContainer>
-                    <SelectedDeleteBtn>선택상품삭제</SelectedDeleteBtn>
-                    <Table>
-                        <thead>
-                            <TheadRow>
-                                <th>
-                                    <input type="checkbox" />
-                                </th>
-                                <th>상품</th>
-                                <th>수량</th>
-                                <th>할인/혜택</th>
-                                <th>배송비</th>
-                                <th>주문금액</th>
-                                <th>삭제</th>
-                            </TheadRow>
-                        </thead>
+                    <TableContainer>
+                        <SelectedDeleteBtn>선택상품삭제</SelectedDeleteBtn>
+                        <Table>
+                            <thead>
+                                <tr>
+                                    <th>
+                                        <input type="checkbox" />
+                                    </th>
+                                    <th>상품</th>
+                                    <th>수량</th>
+                                    <th>할인/혜택</th>
+                                    <th>배송비</th>
+                                    <th>주문금액</th>
+                                    <th>삭제</th>
+                                </tr>
+                            </thead>
 
-                        <tbody>
-                            {cartProduct &&
-                                cartProduct?.map((cartItem) => (
-                                    <TBodyRow key={cartItem.cartItemId}>
-                                        <th>
-                                            <input type="checkbox" />
-                                        </th>
-                                        <th>
-                                            <ItemDetails>
-                                                <img
-                                                    src={cartItem.imgUrl}
-                                                    alt="img"
-                                                />
-                                                <h4>{cartItem.itemName}</h4>
-                                            </ItemDetails>
-                                        </th>
-                                        <th>
-                                            <CountContainer>
-                                                <BtnStyle>-</BtnStyle>
-                                                <div>{cartItem.count}</div>
-                                                <BtnStyle>+</BtnStyle>
-                                            </CountContainer>
-                                        </th>
-                                        <th>
-                                            <p>0원</p>
-                                        </th>
-                                        <th>무료</th>
-                                        <th>{cartItem.totalPrice}원</th>
-                                        <th>
-                                            <BtnStyle
-                                                onClick={() =>
-                                                    handleDeleteCart(
-                                                        cartItem.cartItemId
-                                                    )
-                                                }
-                                            >
-                                                X
-                                            </BtnStyle>
-                                        </th>
-                                    </TBodyRow>
-                                ))}
-                        </tbody>
-                        <tfoot>
-                            <TFootRow>
-                                <td colSpan={7}>
-                                    <p style={{ marginBottom: "5px" }}>
-                                        -장바구니 저장 기간은 로그인 시 최대
-                                        90일입니다.
-                                    </p>
-                                    <p>
-                                        -예약상품은 발매 시 결제 순서대로
-                                        출괴되며, 사정에 의하여 발매 연기 및
-                                        취소가 될 수 있습니다.
-                                    </p>
-                                </td>
-                            </TFootRow>
-                        </tfoot>
-                    </Table>
+                            <tbody>
+                                {/* 장바구니 목록 */}
+                                {cartProduct &&
+                                    cartProduct?.map((cartItem) => (
+                                        <tr key={cartItem.cartItemId}>
+                                            <td>
+                                                <input type="checkbox" />
+                                            </td>
+                                            <td>
+                                                <ItemDetails>
+                                                    <div>
+                                                        <img
+                                                            src={
+                                                                cartItem.imgUrl
+                                                            }
+                                                            alt="img"
+                                                        />
+                                                    </div>
+                                                    <ItemDescription>
+                                                        <p>
+                                                            {cartItem.itemName}
+                                                        </p>
+                                                        <div>
+                                                            <p>색상: MGL</p>
+                                                            <p>사이즈: XS</p>
+                                                        </div>
+                                                    </ItemDescription>
+                                                </ItemDetails>
+                                            </td>
+                                            <td>
+                                                <BtnContainer>
+                                                    <BtnStyle>-</BtnStyle>
+                                                    <div>{cartItem.count}</div>
+                                                    <BtnStyle>+</BtnStyle>
+                                                </BtnContainer>
+                                            </td>
+                                            <td>0원</td>
+                                            <td>무료</td>
+                                            <td>
+                                                {cartItem.totalPrice.toLocaleString()}
+                                                원
+                                            </td>
+                                            <td>
+                                                <BtnContainer
+                                                    onClick={() =>
+                                                        handleDeleteCart(
+                                                            cartItem.cartItemId
+                                                        )
+                                                    }
+                                                >
+                                                    <IoClose />
+                                                </BtnContainer>
+                                            </td>
+                                        </tr>
+                                    ))}
+                            </tbody>
+
+                            <tfoot>
+                                <TFootRow>
+                                    <td colSpan={7}>
+                                        <p style={{ marginBottom: "5px" }}>
+                                            -장바구니 저장 기간은 로그인 시 최대
+                                            90일입니다.
+                                        </p>
+                                        <p>
+                                            -예약상품은 발매 시 결제 순서대로
+                                            출괴되며, 사정에 의하여 발매 연기 및
+                                            취소가 될 수 있습니다.
+                                        </p>
+                                    </td>
+                                </TFootRow>
+                            </tfoot>
+                        </Table>
+                    </TableContainer>
                 </TableContainer>
-                <PaymentInfo />
+
+                {/* 주문서 & 주문하기 버튼 */}
+                <PaymentInfo
+                    handleClickOrder={handleClickOrder}
+                    totalPrice={totalPrice}
+                />
             </CartContainer>
         </div>
     );
