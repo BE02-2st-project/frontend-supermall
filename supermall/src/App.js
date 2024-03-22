@@ -14,6 +14,7 @@ import Cart from "./pages/Cart";
 import Order from "./pages/Order";
 
 import { redirect } from "react-router-dom";
+import SearchResult from "./pages/SearchResult";
 
 const loader = async () => {
     const userLogin = Boolean(localStorage.getItem("accessToken"));
@@ -38,9 +39,15 @@ const router = createBrowserRouter([
                 path: "/products/:category",
                 element: <Products />,
             },
+
             {
                 path: "/products/:category/:itemId",
                 element: <ProductDetail />,
+            },
+            {
+                // path: "/products/:category", // /item
+                path: "/search/:searchWord",
+                element: <SearchResult />,
             },
             {
                 path: "/login",

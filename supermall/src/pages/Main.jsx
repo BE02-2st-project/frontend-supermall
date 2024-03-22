@@ -46,6 +46,16 @@ const Main = () => {
             .then((data) => setPosts(data));
     }, []);
 
+    const [kakaoToken, setKakaoToken] = useState("");
+    useEffect(() => {
+        const request = window.location.href;
+        if (request.includes("Bearer")) {
+            const receiveToken = request.split("Bearer")[1];
+            setKakaoToken(receiveToken);
+            localStorage.setItem("accessToken", receiveToken);
+        }
+    }, []);
+
     return (
         <>
             <MainImgSlides />
