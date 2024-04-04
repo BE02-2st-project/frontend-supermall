@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import PageHeader from "../common/PageHeader";
 import MyPageMenu from "../common/MyPageMenu";
@@ -110,10 +110,6 @@ const ReceiveCheckbox = styled.div`
         height: 1.1rem;
         accent-color: black;
     }
-    input,
-    label {
-        cursor: pointer;
-    }
 `;
 
 const AdditionalInform = styled.ul`
@@ -193,78 +189,23 @@ function EditUser() {
     const handleCancel = () => {
         navigate("/mypage");
     };
-
-    const [userData, setUserData] = useState({});
-    // 회원정보수정에서 확인버튼
     const handleEditSubmit = (event) => {
         event.preventDefault();
         setConfirmOpen(false);
-        setConfirmOpen(true);
-        setButtonType("accept");
+        navigate("/mypage");
+
+        // const formData = {
+        //     userName: editName,
+        //     email: userEmail,
+        //     password: editPassword,
+        //     phoneNumber:
+        //         editNumber.partOne + editNumber.partTwo + editNumber.partThree,
+        // };
+
+        // fetch("")
     };
 
-    // 모달창에서 확인버튼
-    const handleClickSave = () => {
-        const formData = {
-            userId: userData.userId,
-            userName: editName,
-            email: userEmail,
-            password: editPassword,
-            phoneNumber:
-                editNumber.partOne + editNumber.partTwo + editNumber.partThree,
-            address: addressValue + addressDetail,
-            gender: null,
-            socialName: null,
-            socialUserId: null,
-            createAt: null,
-            deletedAt: null,
-        };
-        console.log(formData);
-
-        const accessToken = localStorage.getItem("accessToken");
-        const userId = localStorage.getItem("userId");
-        fetch(`http://43.202.211.22:8080/api/user/${userId}`, {
-            method: "POST",
-            credentials: "include",
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${accessToken}`,
-            },
-            body: JSON.stringify(formData),
-        }).then((res) => {
-            if (res.ok) {
-                console.log("요청성공");
-                console.log(formData);
-            } else {
-                throw new Error("요청 실패");
-            }
-        });
-        // navigate("/mypage");
-    };
-
-    useEffect(() => {
-        const accessToken = localStorage.getItem("accessToken");
-        const userId = localStorage.getItem("userId");
-        console.log("userId", userId);
-        fetch(`http://43.202.211.22:8080/api/user/${userId}`, {
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${accessToken}`,
-            },
-        })
-            .then((res) => res.json())
-            .then((data) => {
-                setUserData(data);
-                setEditName(data.userName);
-                setEditNumber({
-                    partOne: "010",
-                    partTwo: data.phoneNumber?.slice(3, 6),
-                    partThree: data.phoneNumber?.slice(6),
-                });
-            });
-    }, []);
-
-    console.log(userData);
+    console.log(confirmOpen);
 
     return (
         <div>
@@ -455,7 +396,13 @@ function EditUser() {
                     >
                         취소
                     </button>
-                    <button type="button" onClick={handleEditSubmit}>
+                    <button
+                        type="button"
+                        onClick={() => {
+                            setConfirmOpen(true);
+                            setButtonType("accept");
+                        }}
+                    >
                         확인
                     </button>
                 </ControlButtonBox>
@@ -471,7 +418,7 @@ function EditUser() {
                         onClickConfirm={
                             buttonType === "cancel"
                                 ? handleCancel
-                                : handleClickSave
+                                : handleEditSubmit
                         }
                     />
                 )}

@@ -14,8 +14,7 @@ const Backdrop = styled.div`
 const Overlay = styled.div`
     position: absolute;
     width: 50%;
-    height: 50%;
-    top: 80%;
+    top: 65%;
     left: 50%;
     transform: translate(-50%, -50%);
     background-color: white;

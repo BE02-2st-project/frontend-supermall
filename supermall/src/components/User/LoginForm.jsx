@@ -158,20 +158,18 @@ function LoginForm() {
             },
             body: JSON.stringify(loginParam),
         })
-            .then((res) => {
-                if (res.ok) {
-                    return res.json();
+            .then((response) => {
+                if (response.ok) {
+                    return response.json();
                 } else {
                     throw new Error("로그인 실패");
                 }
             })
             .then((data) => {
-                console.log("user", data);
                 // Bearer 토큰 추출 및 localStorage에 토큰 저장
                 const accessToken = data.accessToken.split(" ")[1];
                 localStorage.setItem("accessToken", accessToken);
                 localStorage.setItem("email", loginParam.email);
-                localStorage.setItem("userId", data.userId);
                 console.log("로그인 성공");
                 if (saveId) {
                     // 아이디 저장

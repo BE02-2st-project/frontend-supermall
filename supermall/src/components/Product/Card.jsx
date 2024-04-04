@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { PiPlusSquare } from "react-icons/pi";
 import { useNavigate } from "react-router-dom";
@@ -31,8 +31,6 @@ const StyledProductIntroduction = styled.div`
 const StyledProductIntroductionName = styled.div`
     font-size: 1rem;
     letter-spacing: -1px;
-    display: flex;
-    gap: 0.2rem;
 `;
 
 /// 사진밑에 상품색깔
@@ -75,24 +73,7 @@ const Card = ({ category, itemInfo }) => {
         });
     };
 
-    const [special, setSpecial] = useState({});
-    useEffect(() => {
-        /* 상품 특징 랜덤 꾸미기 */
-        let radomNum = Math.floor(Math.random() * 4);
-        let selectSpecial = [
-            {
-                text: "[노정의 착용]",
-                color: "#a12ce7",
-            },
-            {
-                text: "",
-                color: "black",
-            },
-            { text: "[서울시리즈 기념]", color: "#4094eb" },
-            { text: "[신상품]", color: "green" },
-        ][radomNum];
-        setSpecial(selectSpecial);
-    }, []);
+    /* 상품 특징 랜덤 꾸미기 */
 
     return (
         <CardStyle onClick={() => MoveDetailItem(itemInfo.id)}>
@@ -107,7 +88,7 @@ const Card = ({ category, itemInfo }) => {
 
             <StyledProductIntroduction>
                 <StyledProductIntroductionName>
-                    <span style={{ color: special.color }}>{special.text}</span>
+                    <span style={{ color: "#a12ce7" }}>[노정의 착용]</span>
                     <span>{itemInfo.name}</span>
                 </StyledProductIntroductionName>
 

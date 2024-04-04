@@ -44,11 +44,10 @@ const Table = styled.table`
 
     tr {
         border-bottom: 1px solid #ddd;
-        cursor: pointer;
     }
 
     tr:hover {
-        background-color: #ededed;
+        background-color: #ddd;
     }
 
     td:nth-child(3),
@@ -72,9 +71,6 @@ const ItemDescription = styled.div`
     text-align: left;
     display: flex;
     flex-direction: column;
-    > p {
-        font-weight: bold;
-    }
     > div {
         margin-top: 2rem;
     }
@@ -194,29 +190,26 @@ function Order() {
             });
 
         setAbleCancel(orderItems.length === 0 ? false : true);
-        console.log("able", ableCancel, orderItems.length);
     }, [currentOrderId]);
 
     console.log(orderItems);
     console.log(currentOrderId);
 
     /* 주문 목록 취소하기 (가장 최신것만) */
-    const handleCancelOrder = () => {
+    const handleCancelOrder = (orderId) => {
         const accessToken = localStorage.getItem("accessToken");
-        const orderId = orderItems[0].orderId;
-        console.log(orderId, "orderId");
-        fetch(`http://43.202.211.22:8080/api/order-list/{orderId}/${orderId}`, {
+        fetch(`http://43.202.211.22:8080/api/order-list/${orderId}`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
                 Authorization: `Bearer ${accessToken}`,
             },
-        }).then((res) => {
-            if (res.ok) {
-                setOrderItems([]);
-                console.log("ok");
-            }
-        });
+        })
+            .then((res) => res.json())
+            .then((data) => {
+                console.log(data);
+                setOrderItems(data);
+            });
     };
     return (
         <div>
@@ -280,11 +273,10 @@ function Order() {
                         </Table>
                         <CancelButtonBox>
                             <CancelButton
-                                onClick={handleCancelOrder}
-                                // onClick={() =>
-                                //     handleCancelOrder(currentOrderId)
-                                // }
-                                disabled={!ableCancel}
+                                onClick={() =>
+                                    handleCancelOrder(currentOrderId)
+                                }
+                                disabled={ableCancel}
                             >
                                 주문 취소하기
                             </CancelButton>
@@ -297,10 +289,7 @@ function Order() {
                     <ColumnPayInfo>
                         <BlackRowPayInfo>
                             <div>총 상품금액</div>
-                            <div>
-                                {orderItems[0]?.orderTotalPrice.toLocaleString()}
-                                원
-                            </div>
+                            <div>100,000원</div>
                         </BlackRowPayInfo>
                         <RowPayInfo>
                             <div>상품 할인 금액</div>
@@ -320,20 +309,12 @@ function Order() {
                         <TotalPayResult>
                             <div>총 결제금액</div>
                             <div>
-                                <span>
-                                    {orderItems[0]?.orderTotalPrice.toLocaleString()}
-                                    원
-                                </span>
+                                <span>301,000</span>원
                             </div>
                         </TotalPayResult>
                         <BlackRowPayInfo>
                             <div>적립 예정 마일리지</div>
-                            <div>
-                                {parseInt(
-                                    orderItems[0]?.orderTotalPrice * 0.1
-                                ).toLocaleString()}
-                                원
-                            </div>
+                            <div>3,010원</div>
                         </BlackRowPayInfo>
                     </ColumnPayInfo>
 

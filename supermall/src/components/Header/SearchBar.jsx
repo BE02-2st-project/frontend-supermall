@@ -3,7 +3,6 @@ import ReactDOM from "react-dom";
 import styled from "styled-components";
 import { FiSearch } from "react-icons/fi";
 import { MdClose } from "react-icons/md";
-import { useNavigate } from "react-router-dom";
 
 const BackContainer = styled.div`
     position: fixed;
@@ -123,22 +122,14 @@ const Overlay = ({ setIsSearchOpen, searchWords, setSearchWords }) => {
         setSearchWords((prev) => prev.filter((_, idx) => idx !== index));
     };
 
-    const navigate = useNavigate();
-    const [resultData, setResultData] = useState([]);
     const handleSearchSubmit = (event) => {
         event.preventDefault();
         setSearchWords((prev) => [...prev, inputWord]);
+        console.log(searchWords);
 
         fetch(`http://43.202.211.22:8080/api/items/search?keyword=${inputWord}`)
             .then((res) => res.json())
-            .then((data) => {
-                console.log(data);
-                setResultData(data);
-            });
-
-        navigate(`/search/${inputWord}`, {
-            state: { data: resultData },
-        });
+            .then((data) => console.log(data));
     };
 
     useEffect(() => {

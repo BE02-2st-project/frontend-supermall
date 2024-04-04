@@ -110,7 +110,7 @@ function Header() {
 
     useEffect(() => {
         const token = localStorage.getItem("accessToken");
-        if (Boolean(token)) {
+        if (token) {
             setLoginState(true);
         }
     }, []);

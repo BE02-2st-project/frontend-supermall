@@ -105,12 +105,15 @@ function Products() {
     useEffect(() => {
         fetch("http://43.202.211.22:8080/api/items")
             .then((res) => res.json())
-            .then((data) => {
-                setPosts(data);
-            });
+            .then((data) => setPosts(data));
 
-        const colorset = posts.map((item) => {});
+        // 카테고리 거르기
+        setPosts((prev) =>
+            prev.filter((item) => item.category.category === category)
+        );
     }, []);
+
+    console.log(posts);
 
     return (
         <ProductsBackground>
@@ -135,19 +138,15 @@ function Products() {
             <ItemListContainer>
                 {posts && (
                     <MainCardContainer>
-                        {posts
-                            .filter(
-                                (item) => item.category.category === category
-                            )
-                            .map((post) => (
-                                <StyledMain key={post.id}>
-                                    <Card
-                                        key={post.id}
-                                        itemInfo={post}
-                                        category={category}
-                                    />
-                                </StyledMain>
-                            ))}
+                        {posts.map((post) => (
+                            <StyledMain key={post.id}>
+                                <Card
+                                    key={post.id}
+                                    itemInfo={post}
+                                    category={category}
+                                />
+                            </StyledMain>
+                        ))}
                     </MainCardContainer>
                 )}
             </ItemListContainer>
