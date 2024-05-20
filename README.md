@@ -35,7 +35,7 @@
 `배포링크`  https://frontend-supermall.vercel.app
 
 <div align="center">
-  <img src="https://github.com/BE02-2st-project/frontend-supermall/assets/111291076/38667724-070a-4780-96e5-4d614c6229bb" width="100%"/>
+  <img src="https://github.com/BE02-2st-project/frontend-supermall/assets/111291076/921a9844-0b15-4c9c-ba1f-840056e9834a" width="100%"/>
 </div>
 
 
@@ -63,6 +63,7 @@
 # Detail
 
 
+<!-- 로그인 & 회원가입 -->
 <div align="center">
 <table>
   <tr>
@@ -78,11 +79,12 @@
    * DropDown Menu 구현
 
 
+<!-- 상품 리스트 & 상세 페이지 -->
 <div align="center">
 <table>
   <tr>
-    <td><img src="https://github.com/BE02-2st-project/frontend-supermall/assets/111291076/a418963b-42fc-4f9a-9933-b0a45e41f39e" alt="Image 1" height="300" /></td>
-    <td><img src="https://github.com/BE02-2st-project/frontend-supermall/assets/111291076/7f261213-51e8-4fae-81ae-aa6e605bca09" alt="Image 2" height="300" /></td>
+    <td><img src="https://github.com/BE02-2st-project/frontend-supermall/assets/111291076/a2971876-099a-460e-961e-7f55ac4ed9a1" alt="Image 1" height="300" /></td>
+    <td><img src="https://github.com/BE02-2st-project/frontend-supermall/assets/111291076/52eda04b-0085-4d44-9f2f-b780e92ceec4" alt="Image 2" height="300" /></td>
   </tr>
 </table>
 </div>
@@ -96,21 +98,37 @@
    * 컨텐츠 Hover 시, 해당 영상의 제목으로 TMDB API를 통해 유투브 영상 Path를 찾아서 영상 자동 재생 구현, 이때 useSearchVideo라는 Custom Hook 이용함
    * TMDB API에서 데이터를 받아올 땐, async/await과 fetch 사용
 
-  
+
+<!-- 장바구니 & 주문확인 페이지 -->
 <div align="center">
 <table>
   <tr>
-    <td><img src="https://github.com/BE02-2st-project/frontend-supermall/assets/111291076/a418963b-42fc-4f9a-9933-b0a45e41f39e" alt="Image 1" height="300" /></td>
-    <td><img src="https://github.com/BE02-2st-project/frontend-supermall/assets/111291076/c6884b2e-83be-45fa-acb6-4091aa009051" alt="Image 2" height="300" /></td>
+    <td><img src="https://github.com/BE02-2st-project/frontend-supermall/assets/111291076/fa4150a0-ed34-4be9-97ce-f51835bf9c56" alt="Image 1" height="300" /></td>
+    <td><img src="https://github.com/BE02-2st-project/frontend-supermall/assets/111291076/e9c561c0-23f2-461e-9b69-193b233e906d" alt="Image 2" height="300" /></td>
   </tr>
 </table>
 </div>
 
 
-4. Detail Page  
+3. 장바구니 & 주문확인 페이지
    * Main Page처럼 해당 컨텐츠와 연관된 영상 자동 재생  
    * ReactDOM.createPortal을 이용해 Modal로 구현(모달 외 영역 클릭시 닫힘 구현)  
 
+
+<!-- 마이페이지 -->
+<div align="center">
+<table>
+  <tr>
+    <td><img src="https://github.com/BE02-2st-project/frontend-supermall/assets/111291076/10780eeb-6051-4fab-a989-486912480061" alt="Image 1" height="300" /></td>
+    <td><img src="https://github.com/BE02-2st-project/frontend-supermall/assets/111291076/6da11a9e-0c3d-4e56-a6fb-a143cd09f4a7" alt="Image 2" height="300" /></td>
+  </tr>
+</table>
+</div>
+
+
+4. 마이페이지 - 회원정보수정 페이지
+   * Main Page처럼 해당 컨텐츠와 연관된 영상 자동 재생  
+   * ReactDOM.createPortal을 이용해 Modal로 구현(모달 외 영역 클릭시 닫힘 구현)  
 
 
 <!-- 프로젝트 회고 -->
