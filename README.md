@@ -84,7 +84,7 @@
 <div align="center">
 <table>
   <tr>
-    <td><img src="https://github.com/BE02-2st-project/frontend-supermall/assets/111291076/8953eef2-85d0-46f4-aa3c-6af921dbc99e" alt="Image 1" height="300" /></td>
+    <td><img src="https://github.com/BE02-2st-project/frontend-supermall/assets/111291076/8ca49c11-8038-49cb-995d-80a3deebba77" alt="Image 1" height="300" /></td>
   </tr>
 </table>
 </div>
