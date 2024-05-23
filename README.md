@@ -84,8 +84,7 @@
 <div align="center">
 <table>
   <tr>
-    <td><img src="https://github.com/BE02-2st-project/frontend-supermall/assets/111291076/a2971876-099a-460e-961e-7f55ac4ed9a1" alt="Image 1" height="300" /></td>
-    <td><img src="https://github.com/BE02-2st-project/frontend-supermall/assets/111291076/52eda04b-0085-4d44-9f2f-b780e92ceec4" alt="Image 2" height="300" /></td>
+    <td><img src=""https://github.com/BE02-2st-project/frontend-supermall/assets/111291076/f8e3407d-b68d-4d3e-8bc6-d53cb2c82576"" alt="Image 1" height="300" /></td>
   </tr>
 </table>
 </div>
